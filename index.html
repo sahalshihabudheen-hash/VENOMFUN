@@ -15,13 +15,13 @@
             background-color: #000000;
             font-family: Arial, sans-serif;
             color: #ffffff;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
         }
 
-        #intro-container {
+        #enter-screen {
             position: fixed;
             top: 0;
             left: 0;
@@ -31,117 +31,296 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 2000;
+            flex-direction: column;
+        }
+
+        #enter-screen.hidden {
+            display: none;
+        }
+
+        .enter-button {
+            background-color: #cc0000;
+            color: #ffffff;
+            border: 3px solid #ff0000;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .enter-button:hover {
+            background-color: #ff0000;
+            box-shadow: 0 0 60px rgba(255, 0, 0, 1);
+            transform: scale(1.05);
+        }
+
+        .enter-button:active {
+            transform: scale(0.95);
+        }
+
+        #video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1500;
+        }
+
+        #video-container.show {
+            display: flex;
         }
 
         video {
-            max-height: 60vh;
-            max-width: 90%;
-            border-radius: 10px;
+            max-width: 85%;
+            max-height: 85vh;
+            border-radius: 15px;
             box-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
         }
 
         #main-content {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1s ease-in-out;
-            text-align: center;
-            max-width: 1200px;
-            width: 90%;
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #000000 0%, #1a0000 50%, #000000 100%);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
         }
 
         #main-content.show {
-            opacity: 1;
-            pointer-events: auto;
+            display: flex;
+        }
+
+        .main-wrapper {
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
         }
 
         h1 {
-            font-size: 4rem;
+            font-size: 3.5rem;
             color: #ff0000;
             text-shadow: 0 0 30px rgba(255, 0, 0, 0.8),
                          0 0 60px rgba(255, 0, 0, 0.6);
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             font-weight: bold;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
         }
 
         .subtitle {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: #ff6666;
             text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
-        .boxes-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+        .select-button {
+            background-color: #cc0000;
+            color: #ffffff;
+            border: 3px solid #ff0000;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.7);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 1rem;
+        }
+
+        .select-button:hover {
+            background-color: #ff0000;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 1);
+            transform: scale(1.05);
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
+
+        #modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: #1a0000;
+            border: 3px solid #ff0000;
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            box-shadow: 0 0 60px rgba(255, 0, 0, 0.8);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-content h2 {
+            font-size: 2rem;
+            color: #ff0000;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .version-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .version-btn {
+            background-color: #cc0000;
+            color: #ffffff;
+            border: 2px solid #ff0000;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .version-btn:hover {
+            background-color: #ff0000;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 1);
+            transform: scale(1.05);
+        }
+
+        #server-info {
             margin-top: 2rem;
+            display: none;
         }
 
-        .box {
+        #server-info.show {
+            display: block;
+        }
+
+        .info-box {
             background-color: #1a0000;
             border: 2px solid #ff0000;
             border-radius: 10px;
-            padding: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
-            transition: all 0.3s ease;
         }
 
-        .box:hover {
-            box-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
-            transform: translateY(-5px);
-        }
-
-        .box h2 {
-            font-size: 1.8rem;
+        .info-box h3 {
             color: #ff3333;
-            text-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+            font-size: 1.3rem;
             margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
         }
 
-        .box p {
+        .info-item {
             margin: 0.8rem 0;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            color: #ffffff;
         }
 
-        .label {
+        .info-label {
             color: #ff6666;
             font-weight: bold;
         }
 
-        .value {
+        .info-value {
             color: #ffffff;
             font-family: monospace;
-            cursor: pointer;
-            transition: color 0.3s ease;
             word-break: break-all;
+            font-size: 0.95rem;
         }
 
-        .value:hover {
-            color: #ffcccc;
+        .status {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
         }
 
-        #popup {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
+        .status.online {
+            background-color: #00cc00;
+            color: #000000;
+        }
+
+        .status.offline {
+            background-color: #cc0000;
+            color: #ffffff;
+        }
+
+        .copy-button {
             background-color: #ff0000;
             color: #ffffff;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 999;
+            border: 2px solid #ff3333;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+            transition: all 0.3s ease;
             font-weight: bold;
-            font-size: 1.1rem;
+            margin-top: 1rem;
         }
 
-        #popup.show {
-            opacity: 1;
+        .copy-button:hover {
+            background-color: #ff3333;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 1);
+        }
+
+        .back-button {
+            background-color: #333333;
+            color: #ffffff;
+            border: 2px solid #666666;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(100, 100, 100, 0.6);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+
+        .back-button:hover {
+            background-color: #555555;
+            box-shadow: 0 0 25px rgba(100, 100, 100, 1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: transparent;
+            color: #ff0000;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #ff6666;
         }
 
         @media (max-width: 768px) {
@@ -150,103 +329,196 @@
             }
 
             .subtitle {
-                font-size: 1.2rem;
+                font-size: 1rem;
             }
 
-            .boxes-container {
-                grid-template-columns: 1fr;
-                gap: 1rem;
+            .enter-button {
+                padding: 15px 35px;
+                font-size: 1.1rem;
             }
 
-            .box {
-                padding: 1.5rem;
+            .modal-content {
+                padding: 2rem 1rem;
+                max-width: 90%;
             }
 
-            .box h2 {
-                font-size: 1.3rem;
+            .modal-content h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
             }
 
-            .box p {
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .enter-button {
+                padding: 12px 25px;
                 font-size: 0.95rem;
+            }
+
+            video {
+                max-width: 95%;
+                max-height: 80vh;
+            }
+
+            .modal-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .info-box {
+                padding: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <div id="intro-container">
+    <div id="enter-screen">
+        <button class="enter-button" onclick="enterWebsite()">ENTER WEBSITE</button>
+    </div>
+
+    <div id="video-container">
         <video id="intro-video" autoplay muted playsinline>
             <source src="https://files.catbox.moe/oxz09v.mp4" type="video/mp4">
         </video>
     </div>
 
     <div id="main-content">
-        <h1>VENOM FUN</h1>
-        <div class="subtitle">Official Lifesteal SMP</div>
-
-        <div class="boxes-container">
-            <div class="box">
-                <h2>JAVA EDITION</h2>
-                <p><span class="label">Name:</span> VENOM FUN</p>
-                <p><span class="label">IP:</span> <span class="value" data-ip="bloodyvenom.xav.lat:19134" data-type="java">bloodyvenom.xav.lat:19134</span></p>
-            </div>
-
-            <div class="box">
-                <h2>POCKET EDITION</h2>
-                <p><span class="label">Name:</span> VENOM FUN</p>
-                <p><span class="label">IP:</span> <span class="value" data-ip="us.realistichost.pro:19134" data-type="bedrock">us.realistichost.pro:19134</span></p>
-            </div>
+        <div class="main-wrapper">
+            <h1>VENOM FUN</h1>
+            <div class="subtitle">Official Lifesteal SMP</div>
+            <button class="select-button" onclick="openModal()">SELECT VERSION</button>
         </div>
     </div>
 
-    <div id="popup"></div>
+    <div id="modal">
+        <button class="close-modal" onclick="closeModal()">×</button>
+        <div class="modal-content">
+            <h2>Choose Edition</h2>
+            <div class="version-buttons">
+                <button class="version-btn" onclick="selectVersion('java', 'bloodyvenom.xav.lat:19134')">Java Edition</button>
+                <button class="version-btn" onclick="selectVersion('bedrock', 'us.realistichost.pro:19134')">Bedrock Edition</button>
+            </div>
+            <div id="server-info">
+                <div class="info-box">
+                    <h3 id="edition-title"></h3>
+                    <div class="info-item">
+                        <span class="info-label">IP:</span>
+                        <span class="info-value" id="server-ip"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Status:</span>
+                        <span class="status" id="server-status">Loading...</span>
+                    </div>
+                    <div class="info-item" id="player-count-item" style="display: none;">
+                        <span class="info-label">Players:</span>
+                        <span class="info-value" id="player-count"></span>
+                    </div>
+                    <button class="copy-button" onclick="copyIP()">COPY IP</button>
+                    <button class="back-button" onclick="backToVersions()">BACK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <audio id="bg-music" loop>
         <source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        const introContainer = document.getElementById('intro-container');
-        const mainContent = document.getElementById('main-content');
-        const introVideo = document.getElementById('intro-video');
-        const bgMusic = document.getElementById('bg-music');
-        const popup = document.getElementById('popup');
-        const ipElements = document.querySelectorAll('.value');
+        let currentIP = '';
+        let currentVersion = '';
 
-        bgMusic.muted = true;
-        bgMusic.play().catch(() => {});
-
-        setTimeout(() => {
-            bgMusic.muted = false;
+        function enterWebsite() {
+            document.getElementById('enter-screen').classList.add('hidden');
+            document.getElementById('video-container').classList.add('show');
+            
+            const bgMusic = document.getElementById('bg-music');
             bgMusic.volume = 1.0;
-        }, 1000);
+            bgMusic.play().catch(() => {});
 
-        introVideo.addEventListener('ended', () => {
-            introContainer.style.opacity = '0';
-            introContainer.style.pointerEvents = 'none';
-            setTimeout(() => {
-                introContainer.style.display = 'none';
-                mainContent.classList.add('show');
-            }, 500);
-        });
+            const video = document.getElementById('intro-video');
+            video.addEventListener('ended', showMainContent, { once: true });
+        }
 
-        ipElements.forEach(element => {
-            element.addEventListener('click', (e) => {
-                const ip = element.dataset.ip;
-                const type = element.dataset.type;
+        function showMainContent() {
+            document.getElementById('video-container').classList.remove('show');
+            document.getElementById('main-content').classList.add('show');
+        }
 
-                navigator.clipboard.writeText(ip).then(() => {
-                    const message = type === 'java' ? 'Copied Java IP!' : 'Copied Bedrock IP!';
-                    popup.textContent = message;
-                    popup.classList.add('show');
+        function openModal() {
+            document.getElementById('modal').classList.add('show');
+            document.getElementById('server-info').classList.remove('show');
+        }
 
-                    setTimeout(() => {
-                        popup.classList.remove('show');
-                    }, 2000);
-                }).catch(() => {});
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('server-info').classList.remove('show');
+        }
+
+        function backToVersions() {
+            document.getElementById('server-info').classList.remove('show');
+        }
+
+        function selectVersion(version, ip) {
+            currentVersion = version;
+            currentIP = ip;
+
+            const editionTitle = version === 'java' ? 'JAVA EDITION' : 'BEDROCK EDITION';
+            document.getElementById('edition-title').textContent = editionTitle;
+            document.getElementById('server-ip').textContent = ip;
+            document.getElementById('server-info').classList.add('show');
+
+            fetchServerStatus(ip);
+        }
+
+        function fetchServerStatus(ip) {
+            const statusElement = document.getElementById('server-status');
+            const playerCountElement = document.getElementById('player-count');
+            const playerCountItem = document.getElementById('player-count-item');
+
+            statusElement.textContent = 'Loading...';
+            playerCountItem.style.display = 'none';
+
+            fetch(`https://api.mcsrvstat.us/2/${ip}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.online) {
+                        statusElement.textContent = 'ONLINE';
+                        statusElement.className = 'status online';
+                        const players = data.players ? data.players.online : 0;
+                        const maxPlayers = data.players ? data.players.max : 0;
+                        playerCountElement.textContent = `${players}/${maxPlayers}`;
+                        playerCountItem.style.display = 'block';
+                    } else {
+                        statusElement.textContent = 'OFFLINE';
+                        statusElement.className = 'status offline';
+                        playerCountItem.style.display = 'none';
+                    }
+                })
+                .catch(() => {
+                    statusElement.textContent = 'UNKNOWN';
+                    statusElement.className = 'status offline';
+                    playerCountItem.style.display = 'none';
+                });
+        }
+
+        function copyIP() {
+            navigator.clipboard.writeText(currentIP).then(() => {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = 'COPIED!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            }).catch(() => {
+                alert('Failed to copy IP');
             });
-        });
-
-        introContainer.style.transition = 'opacity 0.5s ease';
+        }
     </script>
 </body>
 </html>
