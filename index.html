@@ -64,11 +64,16 @@
 </head>
 <body>
 
-  <!-- 🔊 BACKGROUND MUSIC -->
-  <audio id="bg-music" src="https://files.catbox.moe/yir7i1.mp3" autoplay loop></audio>
+  <!-- BACKGROUND MUSIC (starts AFTER splash video to avoid block) -->
+  <audio id="bg-music" src="https://files.catbox.moe/yir7i1.mp3" loop></audio>
 
-  <!-- VIDEO SPLASH SCREEN -->
-  <video id="intro-video" src="https://files.catbox.moe/oxz09v.mp4" autoplay muted></video>
+  <!-- SPLASH VIDEO (fixed autoplay for GitHub Pages) -->
+  <video id="intro-video"
+    src="https://files.catbox.moe/oxz09v.mp4"
+    autoplay
+    muted
+    playsinline>
+  </video>
 
   <!-- MAIN PAGE CONTENT -->
   <div id="main-content">
@@ -94,14 +99,27 @@
     const main = document.getElementById("main-content");
     const music = document.getElementById("bg-music");
 
-    // Set music volume to 100%
-    music.volume = 1.0;
+    // Retry autoplay (GitHub Pages sometimes blocks first attempt)
+    function tryPlayVideo() {
+      video.play().catch(() => {
+        console.log("Autoplay blocked - retrying...");
+        setTimeout(tryPlayVideo, 500);
+      });
+    }
+    tryPlayVideo();
 
+    // When video ends → show page + start music
     video.onended = () => {
       video.style.display = "none";
       main.style.opacity = 1;
       main.style.pointerEvents = "auto";
       document.body.style.overflow = "auto";
+
+      // Start music AFTER splash to avoid autoplay block
+      music.volume = 1.0;
+      music.play().catch(() => {
+        console.log("Music blocked until user taps.");
+      });
     };
   </script>
 
