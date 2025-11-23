@@ -4,176 +4,138 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VENOM FUN - Lifesteal SMP</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Press Start 2P', Arial, sans-serif; background-color:#0a0a0a; color:#fff; min-height:100vh; }
-a { text-decoration:none; color:inherit; }
-header { width:100%; position:fixed; top:0; left:0; background:rgba(10,10,10,0.9); display:flex; justify-content:space-between; align-items:center; padding:10px 2rem; z-index:4000; border-bottom:2px solid #00ff00; }
-header .logo { font-size:1.2rem; font-weight:bold; color:#00ff00; letter-spacing:2px; }
-nav { display:flex; gap:1.5rem; }
-nav a { font-size:0.9rem; padding:6px 10px; border:2px solid #00ff00; border-radius:4px; transition:all 0.3s; }
-nav a:hover { background:#00ff00; color:#000; }
-.hamburger { display:none; flex-direction:column; cursor:pointer; gap:4px; }
-.hamburger div { width:25px; height:3px; background:#00ff00; }
-@media(max-width:768px){ nav { display:none; flex-direction:column; background:#111; position:absolute; top:50px; right:2rem; width:200px; border:2px solid #00ff00; padding:1rem; } nav.show { display:flex; } .hamburger { display:flex; } }
-
-#enter-screen { position:fixed; top:0; left:0; width:100%; height:100%; background:#000; display:flex; justify-content:center; align-items:center; flex-direction:column; z-index:2000; }
-#enter-screen.hidden { display:none; }
-.enter-button { background:#006600; color:#fff; border:3px solid #00ff00; padding:20px 50px; font-size:1.2rem; border-radius:8px; cursor:pointer; box-shadow:0 0 30px #00ff00; font-weight:bold; text-transform:uppercase; transition:all 0.3s; }
-.enter-button:hover { background:#00ff00; color:#000; transform:scale(1.05); }
-
-#video-container { position:fixed; top:0; left:0; width:100%; height:100%; background:#000; display:none; justify-content:center; align-items:center; z-index:1500; }
-#video-container.show { display:flex; }
-video { max-width:85%; max-height:85vh; border-radius:10px; box-shadow:0 0 40px #00ff00; }
-
-#main-content { width:100%; min-height:100vh; background:linear-gradient(135deg, #0a0a0a 0%, #002200 50%, #0a0a0a 100%); display:none; flex-direction:column; justify-content:center; align-items:center; padding:5rem 2rem; text-align:center; }
-#main-content.show { display:flex; }
-
-h1 { font-size:3rem; color:#00ff00; text-shadow:0 0 20px #00ff00, 0 0 40px #00ff00; margin-bottom:0.5rem; }
-.subtitle { font-size:1.1rem; color:#88ff88; margin-bottom:1rem; }
-.tagline { font-size:0.9rem; color:#aaffaa; margin-bottom:2rem; }
-
-.select-button { background:#006600; color:#fff; border:3px solid #00ff00; padding:12px 35px; font-size:1rem; border-radius:6px; cursor:pointer; box-shadow:0 0 25px #00ff00; transition:all 0.3s; text-transform:uppercase; }
-.select-button:hover { background:#00ff00; color:#000; transform:scale(1.05); }
-
-#modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); justify-content:center; align-items:center; z-index:3000; }
-#modal.show { display:flex; }
-.modal-content { background:#001100; border:2px solid #00ff00; border-radius:12px; padding:2rem; max-width:450px; width:90%; text-align:center; box-shadow:0 0 40px #00ff00; }
-.modal-content h2 { color:#00ff00; margin-bottom:1.5rem; }
-
-.version-buttons { display:flex; flex-direction:column; gap:1rem; }
-.version-btn { background:#006600; color:#fff; border:2px solid #00ff00; padding:10px; font-size:0.9rem; border-radius:6px; cursor:pointer; transition:all 0.3s; text-transform:uppercase; }
-.version-btn:hover { background:#00ff00; color:#000; transform:scale(1.05); }
-
-.info-box { background:#002200; border:2px solid #00ff00; border-radius:8px; padding:1rem; margin-top:1rem; }
-.info-box h3 { color:#88ff88; margin-bottom:0.5rem; }
-.status.online { background:#00ff00; color:#000; padding:2px 6px; border-radius:4px; font-weight:bold; }
-.status.offline { background:#660000; color:#fff; padding:2px 6px; border-radius:4px; font-weight:bold; }
-
-footer { margin-top:4rem; text-align:center; font-size:0.7rem; color:#00ff00; text-shadow:0 0 10px #00ff00; }
-
-.staff-section { margin-top:3rem; display:flex; flex-wrap:wrap; justify-content:center; gap:1.5rem; }
-.staff-card { background:#001100; border:2px solid #00ff00; border-radius:8px; padding:1rem; width:150px; text-align:center; box-shadow:0 0 20px #00ff00; }
-.staff-card img { width:80px; border-radius:50%; border:2px solid #00ff00; margin-bottom:0.5rem; }
-.staff-card h4 { font-size:0.8rem; margin-bottom:0.2rem; }
-.staff-card span { font-size:0.7rem; color:#aaffaa; }
-
-@media(max-width:768px){ .staff-section{flex-direction:column; align-items:center;} h1{font-size:2rem;} .subtitle{font-size:0.85rem;} .tagline{font-size:0.75rem;} }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+    * {margin:0;padding:0;box-sizing:border-box;}
+    body {font-family:'Press Start 2P',cursive;color:#fff;min-height:100vh;overflow-x:hidden;background:#000;}
+
+    /* Background Video */
+    #bg-video {position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-2;}
+    .video-overlay {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:-1;}
+
+    /* Navbar */
+    #navbar {position:fixed;top:0;left:0;right:0;background:#222;border-bottom:4px solid #111;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;z-index:100;}
+    .nav-logo {color:#ffdd55;font-size:0.8rem;text-shadow:2px 2px 0 #000;}
+    .nav-links {display:flex;gap:1.5rem;}
+    .nav-link {color:#ccc;text-decoration:none;font-size:0.6rem;cursor:pointer;text-shadow:2px 2px 0 #000;}
+    .nav-link:hover {color:#88cc88;transform:translateY(-2px);}
+    .hamburger {display:none;flex-direction:column;gap:4px;cursor:pointer;}
+    .hamburger span {width:25px;height:3px;background-color:#ffdd55;transition:all 0.3s;}
+    .mobile-menu {display:none;position:fixed;top:70px;right:0;background:#333;border:4px solid #111;padding:2rem;flex-direction:column;gap:1.5rem;z-index:99;}
+    .mobile-menu.show {display:flex;}
+
+    /* Main Content */
+    #main-content {width:100%;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:2rem;padding-top:100px;}
+    .main-wrapper {text-align:center;max-width:600px;width:100%;animation:fadeIn 1s ease-out;}
+    @keyframes fadeIn {from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes float {0%,100%{transform:translateY(0px);}50%{transform:translateY(-10px);}}
+    h1 {font-size:3rem;color:#ffdd55;text-shadow:4px 4px 0 #000;margin-bottom:1rem;animation:float 3s ease-in-out infinite;}
+    .subtitle {font-size:0.8rem;color:#88cc88;text-shadow:2px 2px 0 #000;margin-bottom:2rem;}
+
+    /* Server Info */
+    .server-info {background:#222;border:4px solid #111;padding:2rem;text-align:center;margin-top:2rem;box-shadow:0 4px 0 #000;}
+    .server-info h2 {color:#ffdd55;margin-bottom:1rem;}
+    .server-ip, .server-status {font-family:'Courier New',monospace;font-size:0.6rem;color:#ccc;margin:0.5rem 0;}
+    .status {display:inline-block;padding:0.5rem 1rem;font-size:0.7rem;font-weight:bold;border:3px solid;text-shadow:2px 2px 0 #000;}
+    .status.online {background:linear-gradient(#88cc88,#5a8f5a);border-color:#3d6b3d;color:#fff;}
+    .status.offline {background:linear-gradient(#cc5555,#8f3a3a);border-color:#6b2020;color:#fff;}
+
+    /* Staff */
+    .staff-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-top:2rem;}
+    .staff-card {background:#333;border:4px solid #111;padding:1.5rem;text-align:center;box-shadow:0 4px 0 #000;}
+    .staff-avatar {font-size:3rem;margin-bottom:1rem;}
+    .staff-name {font-size:0.6rem;color:#ffdd55;margin-bottom:0.5rem;text-shadow:2px 2px 0 #000;}
+    .staff-role {font-size:0.5rem;color:#88cc88;}
+
+    /* Responsive */
+    @media(max-width:768px){.nav-links{display:none;}.hamburger{display:flex;}h1{font-size:2rem;}.subtitle{font-size:0.6rem;}}
+    @media(max-width:480px){h1{font-size:1.5rem;}.subtitle{font-size:0.5rem;}}
+</style>
 </head>
 <body>
 
-<header>
-<div class="logo">VENOM FUN</div>
-<nav id="nav-links">
-<a href="#main-content">Home</a>
-<a href="#staff">Staff</a>
-<a href="https://discord.gg/" target="_blank">Join Discord</a>
-<a href="#news">Server News</a>
-</nav>
-<div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('show')">
-<div></div><div></div><div></div>
-</div>
-</header>
-
-<div id="enter-screen">
-<button class="enter-button" onclick="enterWebsite()">ENTER WEBSITE</button>
-</div>
-
-<div id="video-container">
-<video id="intro-video" autoplay muted playsinline>
-<source src="https://files.catbox.moe/a3fhgr.mp4" type="video/mp4">
+<!-- Background Video -->
+<video id="bg-video" autoplay loop muted playsinline>
+    <source src="https://files.catbox.moe/a3fhgr.mp4" type="video/mp4">
 </video>
+<div class="video-overlay"></div>
+
+<!-- Navbar -->
+<nav id="navbar">
+    <div class="nav-logo">VENOM FUN</div>
+    <div class="nav-links">
+        <a class="nav-link" onclick="scrollToTop()">HOME</a>
+        <a class="nav-link" onclick="openStaffModal()">STAFF</a>
+    </div>
+    <div class="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+    <a class="nav-link" onclick="scrollToTop(); toggleMobileMenu()">HOME</a>
+    <a class="nav-link" onclick="openStaffModal(); toggleMobileMenu()">STAFF</a>
 </div>
 
+<!-- Main Content -->
 <div id="main-content">
-<h1>VENOM FUN</h1>
-<div class="subtitle">Official Lifesteal SMP</div>
-<div class="tagline">The best Minecraft server where legends rise!</div>
-<button class="select-button" onclick="openModal()">SELECT VERSION</button>
+    <div class="main-wrapper">
+        <h1>VENOM FUN</h1>
+        <div class="subtitle">Official Lifesteal SMP</div>
 
-<div class="staff-section" id="staff">
-<div class="staff-card">
-<img src="https://mc-heads.net/avatar/Steve" alt="Staff">
-<h4>SAHAL_PRO</h4>
-<span>Owner</span>
-</div>
-<div class="staff-card">
-<img src="https://mc-heads.net/avatar/CapedGuy" alt="Staff">
-<h4>Caped Guy</h4>
-<span>Admin</span>
-</div>
-</div>
+        <div class="server-info">
+            <h2>Server Info</h2>
+            <div class="server-ip" id="server-ip">Loading IP...</div>
+            <div class="server-status status" id="server-status">Checking...</div>
+        </div>
+    </div>
 
-<div id="news" style="margin-top:3rem; text-align:center;">
-<h2 style="color:#00ff00; text-shadow:0 0 10px #00ff00;">Server News</h2>
-<p style="color:#aaffaa;">Next Lifesteal event coming soon! Stay tuned.</p>
-</div>
-</div>
-
-<div id="modal">
-<button class="close-modal" onclick="closeModal()">×</button>
-<div class="modal-content">
-<h2>Choose Edition</h2>
-<div class="version-buttons">
-<button class="version-btn" onclick="selectVersion('java', 'bloodyvenom.xav.lat:19134')">Java Edition</button>
-<button class="version-btn" onclick="selectVersion('bedrock', 'us.realistichost.pro:19134')">Bedrock Edition</button>
-</div>
-<div id="server-info">
-<div class="info-box">
-<h3 id="edition-title"></h3>
-<div class="info-item">
-<span class="info-label">IP:</span>
-<span class="info-value" id="server-ip"></span>
-</div>
-<div class="info-item">
-<span class="info-label">Status:</span>
-<span class="status" id="server-status">Loading...</span>
-</div>
-<div class="info-item" id="player-count-item" style="display:none;">
-<span class="info-label">Players:</span>
-<span class="info-value" id="player-count"></span>
-</div>
-<button class="copy-button" onclick="copyIP()">COPY IP</button>
-<button class="back-button" onclick="backToVersions()">BACK</button>
-</div>
-</div>
-</div>
+    <!-- Staff Section -->
+    <div class="staff-grid">
+        <div class="staff-card">
+            <div class="staff-avatar">🛡️</div>
+            <div class="staff-name">Admin Steve</div>
+            <div class="staff-role">Owner</div>
+        </div>
+        <div class="staff-card">
+            <div class="staff-avatar">⚔️</div>
+            <div class="staff-name">Mod Alex</div>
+            <div class="staff-role">Moderator</div>
+        </div>
+        <div class="staff-card">
+            <div class="staff-avatar">💚</div>
+            <div class="staff-name">Helper Creeper</div>
+            <div class="staff-role">Helper</div>
+        </div>
+    </div>
 </div>
 
+<!-- Background Music -->
 <audio id="bg-music" loop>
-<source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
+    <source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
 </audio>
 
-<footer>Powered by JARVIS</footer>
-
 <script>
-let currentIP='', currentVersion='';
-function enterWebsite(){
-document.getElementById('enter-screen').classList.add('hidden');
-document.getElementById('video-container').classList.add('show');
-const bgMusic=document.getElementById('bg-music'); bgMusic.volume=1.0; bgMusic.play().catch(()=>{});
-const video=document.getElementById('intro-video'); video.addEventListener('ended',showMainContent,{once:true});
-}
-function showMainContent(){document.getElementById('video-container').classList.remove('show'); document.getElementById('main-content').classList.add('show');}
-function openModal(){document.getElementById('modal').classList.add('show'); document.getElementById('server-info').classList.remove('show');}
-function closeModal(){document.getElementById('modal').classList.remove('show'); document.getElementById('server-info').classList.remove('show');}
-function backToVersions(){document.getElementById('server-info').classList.remove('show');}
-function selectVersion(version,ip){currentVersion=version; currentIP=ip;
-document.getElementById('edition-title').textContent=(version==='java'?'JAVA EDITION':'BEDROCK EDITION');
-document.getElementById('server-ip').textContent=ip;
-document.getElementById('server-info').classList.add('show'); fetchServerStatus(ip);}
-function fetchServerStatus(ip){
-const statusElement=document.getElementById('server-status');
-const playerCountElement=document.getElementById('player-count');
-const playerCountItem=document.getElementById('player-count-item');
-statusElement.textContent='Loading...'; playerCountItem.style.display='none';
-fetch(`https://api.mcsrvstat.us/2/${ip}`).then(r=>r.json()).then(data=>{
-if(data.online){statusElement.textContent='ONLINE'; statusElement.className='status online';
-const players=data.players?data.players.online:0; const maxPlayers=data.players?data.players.max:0;
-playerCountElement.textContent=`${players}/${maxPlayers}`; playerCountItem.style.display='block';} else {statusElement.textContent='OFFLINE'; statusElement.className='status offline'; playerCountItem.style.display='none';}}).catch(()=>{statusElement.textContent='UNKNOWN'; statusElement.className='status offline'; playerCountItem.style.display='none';});}
-function copyIP(){navigator.clipboard.writeText(currentIP).then(()=>{const button=event.target; const originalText=button.textContent; button.textContent='COPIED!'; setTimeout(()=>{button.textContent=originalText;},2000);}).catch(()=>{alert('Failed to copy IP');});}
+    const ip = "bloodyvenom.xav.lat:19134"; // Set default IP
+    document.getElementById('server-ip').textContent = ip;
+
+    // Play background music
+    const bgMusic = document.getElementById('bg-music');
+    bgMusic.volume = 0.3;
+    bgMusic.play().catch(()=>{});
+
+    // Check server status
+    const statusElement = document.getElementById('server-status');
+    fetch(`https://api.mcsrvstat.us/2/${ip}`)
+        .then(res=>res.json())
+        .then(data=>{
+            if(data.online){statusElement.textContent='ONLINE'; statusElement.className='status online';}
+            else{statusElement.textContent='OFFLINE'; statusElement.className='status offline';}
+        }).catch(()=>{statusElement.textContent='UNKNOWN'; statusElement.className='status offline';});
+
+    function toggleMobileMenu(){document.getElementById('mobile-menu').classList.toggle('show');}
+    function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
+    function openStaffModal(){alert('Staff section already visible below.');} // optional: can implement modal
 </script>
+
 </body>
 </html>
