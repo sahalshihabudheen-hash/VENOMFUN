@@ -4,137 +4,140 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VENOM FUN - Lifesteal SMP</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
     * {margin:0;padding:0;box-sizing:border-box;}
-    body {font-family:'Press Start 2P',cursive;color:#fff;min-height:100vh;overflow-x:hidden;background:#000;}
+    body {font-family:'Courier New',monospace;color:#fff;min-height:100vh;overflow-x:hidden;background:#000;}
 
-    /* Background Video */
-    #bg-video {position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-2;}
-    .video-overlay {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:-1;}
+    @font-face {font-family:'Minecraft';src:url('data:font/woff2;base64,d09GMgABAAAAAAT8AA0AAAAAC');}
 
-    /* Navbar */
-    #navbar {position:fixed;top:0;left:0;right:0;background:#222;border-bottom:4px solid #111;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;z-index:100;}
-    .nav-logo {color:#ffdd55;font-size:0.8rem;text-shadow:2px 2px 0 #000;}
-    .nav-links {display:flex;gap:1.5rem;}
-    .nav-link {color:#ccc;text-decoration:none;font-size:0.6rem;cursor:pointer;text-shadow:2px 2px 0 #000;}
-    .nav-link:hover {color:#88cc88;transform:translateY(-2px);}
-    .hamburger {display:none;flex-direction:column;gap:4px;cursor:pointer;}
-    .hamburger span {width:25px;height:3px;background-color:#ffdd55;transition:all 0.3s;}
-    .mobile-menu {display:none;position:fixed;top:70px;right:0;background:#333;border:4px solid #111;padding:2rem;flex-direction:column;gap:1.5rem;z-index:99;}
+    #bg-video {position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:brightness(0.7);}
+    .video-overlay {position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(180deg,rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.7) 100%);z-index:-1;}
+
+    #navbar {position:fixed;top:0;left:0;right:0;background:linear-gradient(180deg,#2d2d2d 0%,#1a1a1a 100%);border-bottom:4px solid #000;border-top:2px solid #555;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 4px 8px rgba(0,0,0,0.5);}
+    .nav-logo {color:#ffed4e;font-size:1.2rem;text-shadow:3px 3px 0 #000,4px 4px 0 #3f3f00;font-weight:bold;letter-spacing:2px;}
+    .nav-links {display:flex;gap:2rem;}
+    .nav-link {color:#fff;text-decoration:none;font-size:0.9rem;cursor:pointer;text-shadow:2px 2px 0 #000;padding:0.5rem 1rem;background:#5a5a5a;border:2px solid #000;border-top:2px solid #8a8a8a;border-left:2px solid #8a8a8a;transition:all 0.1s;}
+    .nav-link:hover {background:#7a7a7a;transform:translate(1px,1px);border-top:2px solid #5a5a5a;border-left:2px solid #5a5a5a;}
+    .nav-link:active {background:#4a4a4a;transform:translate(2px,2px);}
+    .hamburger {display:none;flex-direction:column;gap:5px;cursor:pointer;}
+    .hamburger span {width:30px;height:4px;background-color:#ffed4e;box-shadow:2px 2px 0 #000;transition:all 0.3s;}
+    .mobile-menu {display:none;position:fixed;top:80px;right:10px;background:#2d2d2d;border:4px solid #000;padding:1.5rem;flex-direction:column;gap:1rem;z-index:99;box-shadow:4px 4px 0 #000;}
     .mobile-menu.show {display:flex;}
 
-    /* Main Content */
-    #main-content {width:100%;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:2rem;padding-top:100px;}
-    .main-wrapper {text-align:center;max-width:600px;width:100%;animation:fadeIn 1s ease-out;}
-    @keyframes fadeIn {from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-    @keyframes float {0%,100%{transform:translateY(0px);}50%{transform:translateY(-10px);}}
-    h1 {font-size:3rem;color:#ffdd55;text-shadow:4px 4px 0 #000;margin-bottom:1rem;animation:float 3s ease-in-out infinite;}
-    .subtitle {font-size:0.8rem;color:#88cc88;text-shadow:2px 2px 0 #000;margin-bottom:2rem;}
+    #main-content {width:100%;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:2rem;padding-top:120px;}
+    .main-wrapper {text-align:center;max-width:700px;width:100%;animation:fadeIn 1s ease-out;}
+    @keyframes fadeIn {from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes float {0%,100%{transform:translateY(0px);}50%{transform:translateY(-15px);}}
+    h1 {font-size:4rem;color:#ffed4e;text-shadow:6px 6px 0 #000,7px 7px 0 #3f3f00;margin-bottom:1rem;animation:float 3s ease-in-out infinite;letter-spacing:4px;image-rendering:pixelated;}
+    .subtitle {font-size:1.2rem;color:#55ff55;text-shadow:3px 3px 0 #000,4px 4px 0 #003f00;margin-bottom:2rem;letter-spacing:2px;}
 
-    /* Server Info */
-    .server-info {background:#222;border:4px solid #111;padding:2rem;text-align:center;margin-top:2rem;box-shadow:0 4px 0 #000;}
-    .server-info h2 {color:#ffdd55;margin-bottom:1rem;}
-    .server-ip, .server-status {font-family:'Courier New',monospace;font-size:0.6rem;color:#ccc;margin:0.5rem 0;}
-    .status {display:inline-block;padding:0.5rem 1rem;font-size:0.7rem;font-weight:bold;border:3px solid;text-shadow:2px 2px 0 #000;}
-    .status.online {background:linear-gradient(#88cc88,#5a8f5a);border-color:#3d6b3d;color:#fff;}
-    .status.offline {background:linear-gradient(#cc5555,#8f3a3a);border-color:#6b2020;color:#fff;}
+    .server-info {background:linear-gradient(180deg,#3a3a3a 0%,#2a2a2a 100%);border:4px solid #000;border-top:4px solid #5a5a5a;border-left:4px solid #5a5a5a;padding:2.5rem;text-align:center;margin-top:2rem;box-shadow:8px 8px 0 #000;position:relative;}
+    .server-info::before {content:'';position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;border:2px solid #1a1a1a;pointer-events:none;}
+    .server-info h2 {color:#ffed4e;margin-bottom:1.5rem;font-size:1.8rem;text-shadow:3px 3px 0 #000;}
+    .server-ip {font-family:'Courier New',monospace;font-size:1.1rem;color:#55ff55;margin:1rem 0;padding:1rem;background:#1a1a1a;border:3px solid #000;border-top:3px solid #2a2a2a;border-left:3px solid #2a2a2a;text-shadow:2px 2px 0 #000;letter-spacing:1px;}
+    .server-status {display:inline-block;padding:0.8rem 1.5rem;font-size:1rem;font-weight:bold;border:4px solid;text-shadow:3px 3px 0 #000;margin-top:1rem;letter-spacing:2px;}
+    .status.online {background:linear-gradient(180deg,#55ff55 0%,#3fa03f 100%);border-color:#2a7a2a #000 #000 #2a7a2a;color:#fff;}
+    .status.offline {background:linear-gradient(180deg,#ff5555 0%,#a03f3f 100%);border-color:#7a2a2a #000 #000 #7a2a2a;color:#fff;}
+    .status.unknown {background:linear-gradient(180deg,#ffaa00 0%,#a07a3f 100%);border-color:#7a5a2a #000 #000 #7a5a2a;color:#fff;}
 
-    /* Staff */
-    .staff-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-top:2rem;}
-    .staff-card {background:#333;border:4px solid #111;padding:1.5rem;text-align:center;box-shadow:0 4px 0 #000;}
-    .staff-avatar {font-size:3rem;margin-bottom:1rem;}
-    .staff-name {font-size:0.6rem;color:#ffdd55;margin-bottom:0.5rem;text-shadow:2px 2px 0 #000;}
-    .staff-role {font-size:0.5rem;color:#88cc88;}
+    .staff-section {margin-top:4rem;text-align:center;width:100%;max-width:900px;}
+    .staff-section h2 {color:#ffed4e;font-size:2rem;text-shadow:4px 4px 0 #000;margin-bottom:2rem;letter-spacing:3px;}
+    .staff-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-top:2rem;}
+    .staff-card {background:linear-gradient(180deg,#3a3a3a 0%,#2a2a2a 100%);border:4px solid #000;border-top:4px solid #5a5a5a;border-left:4px solid #5a5a5a;padding:2rem;text-align:center;box-shadow:6px 6px 0 #000;transition:transform 0.2s;}
+    .staff-card:hover {transform:translateY(-5px);}
+    .staff-avatar {font-size:4rem;margin-bottom:1rem;filter:drop-shadow(3px 3px 0 #000);}
+    .staff-name {font-size:1rem;color:#ffed4e;margin-bottom:0.8rem;text-shadow:2px 2px 0 #000;letter-spacing:1px;}
+    .staff-role {font-size:0.85rem;color:#55ff55;text-shadow:2px 2px 0 #000;padding:0.5rem;background:#1a1a1a;border:2px solid #000;}
 
-    /* Responsive */
-    @media(max-width:768px){.nav-links{display:none;}.hamburger{display:flex;}h1{font-size:2rem;}.subtitle{font-size:0.6rem;}}
-    @media(max-width:480px){h1{font-size:1.5rem;}.subtitle{font-size:0.5rem;}}
+    @media(max-width:768px){.nav-links{display:none;}.hamburger{display:flex;}h1{font-size:2.5rem;}.subtitle{font-size:0.9rem;}.server-info h2{font-size:1.4rem;}}
+    @media(max-width:480px){h1{font-size:2rem;}.subtitle{font-size:0.75rem;}.staff-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
-<!-- Background Video -->
 <video id="bg-video" autoplay loop muted playsinline>
     <source src="https://files.catbox.moe/a3fhgr.mp4" type="video/mp4">
 </video>
 <div class="video-overlay"></div>
 
-<!-- Navbar -->
 <nav id="navbar">
-    <div class="nav-logo">VENOM FUN</div>
+    <div class="nav-logo">⛏ VENOM FUN ⛏</div>
     <div class="nav-links">
         <a class="nav-link" onclick="scrollToTop()">HOME</a>
-        <a class="nav-link" onclick="openStaffModal()">STAFF</a>
+        <a class="nav-link" onclick="scrollToStaff()">STAFF</a>
     </div>
     <div class="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></div>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
     <a class="nav-link" onclick="scrollToTop(); toggleMobileMenu()">HOME</a>
-    <a class="nav-link" onclick="openStaffModal(); toggleMobileMenu()">STAFF</a>
+    <a class="nav-link" onclick="scrollToStaff(); toggleMobileMenu()">STAFF</a>
 </div>
 
-<!-- Main Content -->
 <div id="main-content">
     <div class="main-wrapper">
-        <h1>VENOM FUN</h1>
-        <div class="subtitle">Official Lifesteal SMP</div>
+        <h1>⚔ VENOM FUN ⚔</h1>
+        <div class="subtitle">» Official Lifesteal SMP «</div>
 
         <div class="server-info">
-            <h2>Server Info</h2>
+            <h2>⚡ Server Info ⚡</h2>
             <div class="server-ip" id="server-ip">Loading IP...</div>
-            <div class="server-status status" id="server-status">Checking...</div>
+            <div class="server-status status unknown" id="server-status">CHECKING...</div>
         </div>
     </div>
 
-    <!-- Staff Section -->
-    <div class="staff-grid">
-        <div class="staff-card">
-            <div class="staff-avatar">🛡️</div>
-            <div class="staff-name">Admin Steve</div>
-            <div class="staff-role">Owner</div>
-        </div>
-        <div class="staff-card">
-            <div class="staff-avatar">⚔️</div>
-            <div class="staff-name">Mod Alex</div>
-            <div class="staff-role">Moderator</div>
-        </div>
-        <div class="staff-card">
-            <div class="staff-avatar">💚</div>
-            <div class="staff-name">Helper Creeper</div>
-            <div class="staff-role">Helper</div>
+    <div class="staff-section" id="staff-section">
+        <h2>« STAFF TEAM »</h2>
+        <div class="staff-grid">
+            <div class="staff-card">
+                <div class="staff-avatar">🛡️</div>
+                <div class="staff-name">Admin Steve</div>
+                <div class="staff-role">OWNER</div>
+            </div>
+            <div class="staff-card">
+                <div class="staff-avatar">⚔️</div>
+                <div class="staff-name">Mod Alex</div>
+                <div class="staff-role">MODERATOR</div>
+            </div>
+            <div class="staff-card">
+                <div class="staff-avatar">💎</div>
+                <div class="staff-name">Helper Creeper</div>
+                <div class="staff-role">HELPER</div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Background Music -->
 <audio id="bg-music" loop>
     <source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-    const ip = "bloodyvenom.xav.lat:19134"; // Set default IP
-    document.getElementById('server-ip').textContent = ip;
+    const ip = "bloodyvenom.xav.lat:19134";
+    document.getElementById('server-ip').textContent = `📍 ${ip}`;
 
-    // Play background music
     const bgMusic = document.getElementById('bg-music');
-    bgMusic.volume = 0.3;
+    bgMusic.volume = 0.2;
     bgMusic.play().catch(()=>{});
 
-    // Check server status
     const statusElement = document.getElementById('server-status');
     fetch(`https://api.mcsrvstat.us/2/${ip}`)
         .then(res=>res.json())
         .then(data=>{
-            if(data.online){statusElement.textContent='ONLINE'; statusElement.className='status online';}
-            else{statusElement.textContent='OFFLINE'; statusElement.className='status offline';}
-        }).catch(()=>{statusElement.textContent='UNKNOWN'; statusElement.className='status offline';});
+            if(data.online){
+                statusElement.textContent='✓ ONLINE';
+                statusElement.className='status online';
+            } else {
+                statusElement.textContent='✗ OFFLINE';
+                statusElement.className='status offline';
+            }
+        }).catch(()=>{
+            statusElement.textContent='? UNKNOWN';
+            statusElement.className='status unknown';
+        });
 
     function toggleMobileMenu(){document.getElementById('mobile-menu').classList.toggle('show');}
     function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
-    function openStaffModal(){alert('Staff section already visible below.');} // optional: can implement modal
+    function scrollToStaff(){document.getElementById('staff-section').scrollIntoView({behavior:'smooth'});}
 </script>
 
 </body>
