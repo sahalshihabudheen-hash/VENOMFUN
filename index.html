@@ -11,10 +11,15 @@
     /* Video Splash Screen */
     #intro-video {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80vw;
+      height: auto;
+      max-height: 60vh;
+      object-fit: contain;
       z-index: 10;
+      border-radius: 12px;
+      box-shadow: 0 0 25px #0f0;
     }
 
     #main-content {
@@ -60,7 +65,7 @@
 <body>
 
   <!-- VIDEO SPLASH (replace src with your file path below) -->
-  <video id="intro-video" src="https://files.catbox.moe/oxz09v.mp4" autoplay muted></video>
+  <video id="intro-video" src="https://files.catbox.moe/vzi6o9.mp4" autoplay muted></video>
 
   <!-- MAIN PAGE CONTENT -->
   <div id="main-content">
