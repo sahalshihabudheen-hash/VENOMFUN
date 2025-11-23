@@ -3,124 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VENOM FUN - Lifesteal SMP</title>
+  <title>VENOMFUM</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body, html { height: 100%; width: 100%; background: #000; overflow: hidden; }
-
-    /* Video Splash Screen */
-    #intro-video {
-      position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 80vw;
-      height: auto;
-      max-height: 60vh;
-      object-fit: contain;
-      z-index: 10;
-      border-radius: 12px;
-      box-shadow: 0 0 25px #0f0;
-    }
-
-    #main-content {
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1.2s ease;
-      height: 100vh;
-      width: 100vw;
-      background: url('bg.jpg') center/cover no-repeat;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      text-align: center;
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
       font-family: Arial, sans-serif;
     }
 
-    .title {
-      font-size: 4rem;
-      font-weight: bold;
-      margin-bottom: 20px;
-      text-shadow: 0 0 20px #0f0;
+    /* Background video small for phone */
+    #bg-video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90vw;
+      height: auto;
+      max-height: 60vh;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #00ffea88;
     }
 
-    .subtitle {
-      font-size: 1.5rem;
-      opacity: 0.8;
-      margin-bottom: 40px;
+    /* Content text */
+    .content {
+      position: absolute;
+      top: 70%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      color: white;
+      width: 100%;
+      font-size: 1.8rem;
+      text-shadow: 0 0 15px #00fff2;
     }
-
-    .ip-box {
-      background: rgba(0,0,0,0.6);
-      padding: 20px 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px #0f0;
-      margin-bottom: 20px;
-    }
-
-    .ip-box h3 { margin-bottom: 10px; color: #0f0; }
   </style>
 </head>
+
 <body>
 
-  <!-- BACKGROUND MUSIC (starts AFTER splash video to avoid block) -->
-  <audio id="bg-music" src="https://files.catbox.moe/yir7i1.mp3" loop></audio>
-
-  <!-- SPLASH VIDEO (fixed autoplay for GitHub Pages) -->
-  <video id="intro-video"
-    src="https://files.catbox.moe/oxz09v.mp4"
-    autoplay
-    muted
-    playsinline>
+  <!-- Background Video -->
+  <video id="bg-video" autoplay loop muted playsinline>
+    <source src="https://files.catbox.moe/oxz09v.mp4" type="video/mp4">
   </video>
 
-  <!-- MAIN PAGE CONTENT -->
-  <div id="main-content">
-    <div class="title">VENOM FUN</div>
-    <div class="subtitle">Official Lifesteal SMP</div>
+  <!-- Minecraft Theme Music -->
+  <audio id="bg-music" autoplay muted playsinline>
+    <source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
+  </audio>
 
-    <div class="ip-box">
-      <h3>JAVA EDITION</h3>
-      <p>Name: VENOM FUN</p>
-      <p>IP: bloodyvenom.xav.lat:19134</p>
-    </div>
-
-    <div class="ip-box">
-      <h3>POCKET EDITION</h3>
-      <p>Name: VENOM FUN</p>
-      <p>IP: us.realistichost.pro</p>
-      <p>Port: 19134</p>
-    </div>
+  <!-- Content -->
+  <div class="content">
+    <h1>VENOMFUM</h1>
+    <p>Minecraft Server</p>
   </div>
 
   <script>
-    const video = document.getElementById("intro-video");
-    const main = document.getElementById("main-content");
     const music = document.getElementById("bg-music");
 
-    // Retry autoplay (GitHub Pages sometimes blocks first attempt)
-    function tryPlayVideo() {
-      video.play().catch(() => {
-        console.log("Autoplay blocked - retrying...");
-        setTimeout(tryPlayVideo, 500);
-      });
-    }
-    tryPlayVideo();
-
-    // When video ends → show page + start music
-    video.onended = () => {
-      video.style.display = "none";
-      main.style.opacity = 1;
-      main.style.pointerEvents = "auto";
-      document.body.style.overflow = "auto";
-
-      // Start music AFTER splash to avoid autoplay block
-      music.volume = 1.0;
+    // Browser safe autoplay workaround
+    setTimeout(() => {
+      music.muted = false;       // unmute
+      music.volume = 1.0;        // 100% volume
       music.play().catch(() => {
-        console.log("Music blocked until user taps.");
+        console.log("Autoplay blocked, trying again after user movement");
+
+        // Second try when user touches screen
+        document.body.addEventListener("pointerdown", () => {
+          music.muted = false;
+          music.volume = 1.0;
+          music.play();
+        }, { once: true });
       });
-    };
+    }, 800);
   </script>
 
 </body>
