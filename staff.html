@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VENOM FUN - Staff Team</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #1a1a1a 100%);
+            font-family: 'Press Start 2P', cursive;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 2rem;
+            image-rendering: pixelated;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .back-button {
+            background: linear-gradient(180deg, #666666 0%, #4a4a4a 100%);
+            border: 4px solid #2d2d2d;
+            border-bottom-width: 6px;
+            color: #ffffff;
+            padding: 12px 30px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #1a1a1a, 0 0 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.1s ease;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(180deg, #777777 0%, #5a5a5a 100%);
+            transform: translateY(2px);
+            box-shadow: 0 4px 0 #1a1a1a, 0 0 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .back-button:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #1a1a1a;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ffdd55;
+            text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            color: #88cc88;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        .staff-card {
+            background: linear-gradient(180deg, #3a3a3a 0%, #2d2d2d 100%);
+            border: 6px solid #1a1a1a;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 0 #000000, 0 0 30px rgba(0, 0, 0, 0.7);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .staff-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, transparent, rgba(136, 204, 136, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .staff-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 0 #000000, 0 0 50px rgba(136, 204, 136, 0.3);
+        }
+
+        .staff-card:hover::before {
+            opacity: 1;
+        }
+
+        .staff-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border: 6px solid #4a4a4a;
+            box-shadow: 0 0 0 2px #1a1a1a, inset 0 0 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .staff-card:hover .avatar-container {
+            border-color: #88cc88;
+            box-shadow: 0 0 0 2px #1a1a1a, 0 0 30px rgba(136, 204, 136, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            image-rendering: pixelated;
+        }
+
+        .status-badge {
+            position: absolute;
+            bottom: -6px;
+            right: -6px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 4px solid #2d2d2d;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .status-badge.online {
+            background: linear-gradient(135deg, #88cc88 0%, #5a8f5a 100%);
+            box-shadow: 0 2px 8px rgba(136, 204, 136, 0.6), 0 0 15px rgba(136, 204, 136, 0.4);
+        }
+
+        .status-badge.offline {
+            background: linear-gradient(135deg, #666666 0%, #4a4a4a 100%);
+        }
+
+        .staff-name {
+            font-size: 0.9rem;
+            color: #ffffff;
+            margin-bottom: 0.8rem;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+            word-wrap: break-word;
+        }
+
+        .staff-role {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 0.6rem;
+            border: 3px solid;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+            margin-top: 0.5rem;
+        }
+
+        .role-owner {
+            background: linear-gradient(180deg, #cc5555 0%, #8f3a3a 100%);
+            border-color: #6b2020;
+            color: #ffffff;
+        }
+
+        .role-coowner {
+            background: linear-gradient(180deg, #dd8833 0%, #aa6622 100%);
+            border-color: #884411;
+            color: #ffffff;
+        }
+
+        .role-manager {
+            background: linear-gradient(180deg, #9966cc 0%, #774499 100%);
+            border-color: #552277;
+            color: #ffffff;
+        }
+
+        .role-admin {
+            background: linear-gradient(180deg, #cc88cc 0%, #996699 100%);
+            border-color: #664466;
+            color: #ffffff;
+        }
+
+        .role-developer {
+            background: linear-gradient(180deg, #5588cc 0%, #3366aa 100%);
+            border-color: #224488;
+            color: #ffffff;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .footer-text {
+            font-size: 0.6rem;
+            color: #88cc88;
+            text-shadow: 0 0 10px rgba(136, 204, 136, 0.5), 2px 2px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 0.6rem;
+            }
+
+            .staff-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .staff-card {
+                padding: 1.5rem;
+            }
+
+            .avatar-container {
+                width: 100px;
+                height: 100px;
+            }
+
+            .staff-name {
+                font-size: 0.7rem;
+            }
+
+            .back-button {
+                font-size: 0.6rem;
+                padding: 10px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+
+            .staff-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← BACK TO HOME</a>
+            <h1>STAFF TEAM</h1>
+            <div class="subtitle">Meet Our Amazing Team</div>
+        </div>
+
+        <div class="staff-grid" id="staffGrid"></div>
+
+        <div class="footer">
+            <div class="footer-text">Powered by JARVIS</div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle to show/hide Sahal Pro's card
+        const showSahalPro = true;
+
+        const staffMembers = [
+            {
+                name: "PratikPlayz",
+                role: "Owner",
+                discordId: "1208304615699910657",
+                roleClass: "role-owner",
+                online: true
+            },
+            {
+                name: "Sahal Pro",
+                role: "Co Owner",
+                discordId: "1146350719507648643",
+                roleClass: "role-coowner",
+                online: true,
+                hidden: !showSahalPro
+            },
+            {
+                name: "Lkt Gaming",
+                role: "Co Owner",
+                discordId: "1055329631290540063",
+                roleClass: "role-coowner",
+                online: false
+            },
+            {
+                name: "Gif tv",
+                role: "Manager",
+                discordId: "1146350719507648643",
+                roleClass: "role-manager",
+                online: true
+            },
+            {
+                name: "Nep Breezy",
+                role: "Developer",
+                discordId: "0",
+                roleClass: "role-developer",
+                online: false
+            },
+            {
+                name: "Zorobhai",
+                role: "Admin",
+                discordId: "1405171029994770452",
+                roleClass: "role-admin",
+                online: true
+            },
+            {
+                name: "Gorkhali Warrior",
+                role: "Admin",
+                discordId: "1370706879382163556",
+                roleClass: "role-admin",
+                online: false
+            },
+            {
+                name: "Trident",
+                role: "Admin",
+                discordId: "1294310004429553665",
+                roleClass: "role-admin",
+                online: true
+            }
+        ];
+
+        function getDiscordAvatar(discordId) {
+            if (discordId === "0") {
+                return "https://cdn.discordapp.com/embed/avatars/0.png";
+            }
+            return `https://cdn.discordapp.com/avatars/${discordId}/a_default.png?size=256`;
+        }
+
+        function renderStaff() {
+            const staffGrid = document.getElementById('staffGrid');
+            
+            staffMembers
+                .filter(member => !member.hidden)
+                .forEach((member, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'staff-card';
+                    card.style.animationDelay = `${index * 0.1}s`;
+
+                    const avatarUrl = getDiscordAvatar(member.discordId);
+                    const statusClass = member.online ? 'online' : 'offline';
+
+                    card.innerHTML = `
+                        <div class="avatar-container">
+                            <img src="${avatarUrl}" 
+                                 alt="${member.name}" 
+                                 class="avatar"
+                                 onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                            <div class="status-badge ${statusClass}"></div>
+                        </div>
+                        <div class="staff-name">${member.name}</div>
+                        <div class="staff-role ${member.roleClass}">${member.role}</div>
+                    `;
+
+                    staffGrid.appendChild(card);
+                });
+        }
+
+        renderStaff();
+    </script>
+</body>
+</html>
