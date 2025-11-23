@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VENOMFUM - Minecraft Lifesteal Server</title>
+    <title>VENOM FUN - Lifesteal SMP</title>
     <style>
         * {
             margin: 0;
@@ -13,116 +13,240 @@
 
         body {
             background-color: #000000;
+            font-family: Arial, sans-serif;
+            color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
         }
 
-        .container {
-            position: relative;
-            width: 90%;
-            max-width: 1200px;
+        #intro-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
 
         video {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 8px;
-            box-shadow: 0 0 40px rgba(0, 255, 255, 0.6),
-                        0 0 80px rgba(0, 255, 255, 0.4);
+            max-height: 60vh;
+            max-width: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
         }
 
-        .text-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
+        #main-content {
+            opacity: 0;
             pointer-events: none;
-            z-index: 10;
+            transition: opacity 1s ease-in-out;
+            text-align: center;
+            max-width: 1200px;
+            width: 90%;
+        }
+
+        #main-content.show {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         h1 {
-            font-size: 5rem;
-            color: #ffffff;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
-                         0 0 40px rgba(255, 255, 255, 0.6),
-                         0 0 60px rgba(255, 255, 255, 0.4);
+            font-size: 4rem;
+            color: #ff0000;
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.8),
+                         0 0 60px rgba(255, 0, 0, 0.6);
             margin-bottom: 1rem;
             font-weight: bold;
             letter-spacing: 0.1em;
         }
 
-        h2 {
-            font-size: 2rem;
+        .subtitle {
+            font-size: 1.5rem;
+            color: #ff6666;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+            margin-bottom: 3rem;
+        }
+
+        .boxes-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .box {
+            background-color: #1a0000;
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .box:hover {
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
+            transform: translateY(-5px);
+        }
+
+        .box h2 {
+            font-size: 1.8rem;
+            color: #ff3333;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+            margin-bottom: 1rem;
+        }
+
+        .box p {
+            margin: 0.8rem 0;
+            font-size: 1.1rem;
+        }
+
+        .label {
+            color: #ff6666;
+            font-weight: bold;
+        }
+
+        .value {
             color: #ffffff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6),
-                         0 0 20px rgba(255, 255, 255, 0.4);
-            font-weight: normal;
-            letter-spacing: 0.05em;
+            font-family: monospace;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            word-break: break-all;
+        }
+
+        .value:hover {
+            color: #ffcccc;
+        }
+
+        #popup {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ff0000;
+            color: #ffffff;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 999;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        #popup.show {
+            opacity: 1;
         }
 
         @media (max-width: 768px) {
             h1 {
-                font-size: 3rem;
+                font-size: 2.5rem;
             }
-            h2 {
-                font-size: 1.5rem;
-            }
-        }
 
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2rem;
+            .subtitle {
+                font-size: 1.2rem;
             }
-            h2 {
-                font-size: 1rem;
+
+            .boxes-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .box {
+                padding: 1.5rem;
+            }
+
+            .box h2 {
+                font-size: 1.3rem;
+            }
+
+            .box p {
+                font-size: 0.95rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <video id="bgVideo" autoplay muted loop playsinline>
+    <div id="intro-container">
+        <video id="intro-video" autoplay muted playsinline>
             <source src="https://files.catbox.moe/oxz09v.mp4" type="video/mp4">
         </video>
-        <div class="text-overlay">
-            <h1>VENOMFUM</h1>
-            <h2>Minecraft Lifesteal Server</h2>
+    </div>
+
+    <div id="main-content">
+        <h1>VENOM FUN</h1>
+        <div class="subtitle">Official Lifesteal SMP</div>
+
+        <div class="boxes-container">
+            <div class="box">
+                <h2>JAVA EDITION</h2>
+                <p><span class="label">Name:</span> VENOM FUN</p>
+                <p><span class="label">IP:</span> <span class="value" data-ip="bloodyvenom.xav.lat:19134" data-type="java">bloodyvenom.xav.lat:19134</span></p>
+            </div>
+
+            <div class="box">
+                <h2>POCKET EDITION</h2>
+                <p><span class="label">Name:</span> VENOM FUN</p>
+                <p><span class="label">IP:</span> <span class="value" data-ip="us.realistichost.pro:19134" data-type="bedrock">us.realistichost.pro:19134</span></p>
+            </div>
         </div>
     </div>
 
-    <audio id="bgMusic" loop>
+    <div id="popup"></div>
+
+    <audio id="bg-music" loop>
         <source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        const audio = document.getElementById('bgMusic');
-        const video = document.getElementById('bgVideo');
-        let audioStarted = false;
+        const introContainer = document.getElementById('intro-container');
+        const mainContent = document.getElementById('main-content');
+        const introVideo = document.getElementById('intro-video');
+        const bgMusic = document.getElementById('bg-music');
+        const popup = document.getElementById('popup');
+        const ipElements = document.querySelectorAll('.value');
 
-        function startAudio() {
-            if (!audioStarted) {
-                audio.muted = false;
-                audio.volume = 1.0;
-                audio.play().catch(() => {});
-                audioStarted = true;
-            }
-        }
+        bgMusic.muted = true;
+        bgMusic.play().catch(() => {});
 
-        audio.muted = true;
-        audio.play().then(() => {
+        setTimeout(() => {
+            bgMusic.muted = false;
+            bgMusic.volume = 1.0;
+        }, 1000);
+
+        introVideo.addEventListener('ended', () => {
+            introContainer.style.opacity = '0';
+            introContainer.style.pointerEvents = 'none';
             setTimeout(() => {
-                startAudio();
-            }, 1000);
-        }).catch(() => {});
+                introContainer.style.display = 'none';
+                mainContent.classList.add('show');
+            }, 500);
+        });
 
-        document.body.addEventListener('click', startAudio, { once: true });
-        document.body.addEventListener('touchstart', startAudio, { once: true });
+        ipElements.forEach(element => {
+            element.addEventListener('click', (e) => {
+                const ip = element.dataset.ip;
+                const type = element.dataset.type;
+
+                navigator.clipboard.writeText(ip).then(() => {
+                    const message = type === 'java' ? 'Copied Java IP!' : 'Copied Bedrock IP!';
+                    popup.textContent = message;
+                    popup.classList.add('show');
+
+                    setTimeout(() => {
+                        popup.classList.remove('show');
+                    }, 2000);
+                }).catch(() => {});
+            });
+        });
+
+        introContainer.style.transition = 'opacity 0.5s ease';
     </script>
 </body>
 </html>
