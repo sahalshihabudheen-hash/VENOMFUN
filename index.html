@@ -1,524 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VENOM FUN - Lifesteal SMP</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VENOM FUN - Lifesteal SMP</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Press Start 2P', Arial, sans-serif; background-color:#0a0a0a; color:#fff; min-height:100vh; }
+a { text-decoration:none; color:inherit; }
+header { width:100%; position:fixed; top:0; left:0; background:rgba(10,10,10,0.9); display:flex; justify-content:space-between; align-items:center; padding:10px 2rem; z-index:4000; border-bottom:2px solid #00ff00; }
+header .logo { font-size:1.2rem; font-weight:bold; color:#00ff00; letter-spacing:2px; }
+nav { display:flex; gap:1.5rem; }
+nav a { font-size:0.9rem; padding:6px 10px; border:2px solid #00ff00; border-radius:4px; transition:all 0.3s; }
+nav a:hover { background:#00ff00; color:#000; }
+.hamburger { display:none; flex-direction:column; cursor:pointer; gap:4px; }
+.hamburger div { width:25px; height:3px; background:#00ff00; }
+@media(max-width:768px){ nav { display:none; flex-direction:column; background:#111; position:absolute; top:50px; right:2rem; width:200px; border:2px solid #00ff00; padding:1rem; } nav.show { display:flex; } .hamburger { display:flex; } }
 
-        body {
-            background-color: #000000;
-            font-family: Arial, sans-serif;
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+#enter-screen { position:fixed; top:0; left:0; width:100%; height:100%; background:#000; display:flex; justify-content:center; align-items:center; flex-direction:column; z-index:2000; }
+#enter-screen.hidden { display:none; }
+.enter-button { background:#006600; color:#fff; border:3px solid #00ff00; padding:20px 50px; font-size:1.2rem; border-radius:8px; cursor:pointer; box-shadow:0 0 30px #00ff00; font-weight:bold; text-transform:uppercase; transition:all 0.3s; }
+.enter-button:hover { background:#00ff00; color:#000; transform:scale(1.05); }
 
-        #enter-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            flex-direction: column;
-        }
+#video-container { position:fixed; top:0; left:0; width:100%; height:100%; background:#000; display:none; justify-content:center; align-items:center; z-index:1500; }
+#video-container.show { display:flex; }
+video { max-width:85%; max-height:85vh; border-radius:10px; box-shadow:0 0 40px #00ff00; }
 
-        #enter-screen.hidden {
-            display: none;
-        }
+#main-content { width:100%; min-height:100vh; background:linear-gradient(135deg, #0a0a0a 0%, #002200 50%, #0a0a0a 100%); display:none; flex-direction:column; justify-content:center; align-items:center; padding:5rem 2rem; text-align:center; }
+#main-content.show { display:flex; }
 
-        .enter-button {
-            background-color: #cc0000;
-            color: #ffffff;
-            border: 3px solid #ff0000;
-            padding: 20px 50px;
-            font-size: 1.5rem;
-            border-radius: 10px;
-            cursor: pointer;
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
-            transition: all 0.3s ease;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
+h1 { font-size:3rem; color:#00ff00; text-shadow:0 0 20px #00ff00, 0 0 40px #00ff00; margin-bottom:0.5rem; }
+.subtitle { font-size:1.1rem; color:#88ff88; margin-bottom:1rem; }
+.tagline { font-size:0.9rem; color:#aaffaa; margin-bottom:2rem; }
 
-        .enter-button:hover {
-            background-color: #ff0000;
-            box-shadow: 0 0 60px rgba(255, 0, 0, 1);
-            transform: scale(1.05);
-        }
+.select-button { background:#006600; color:#fff; border:3px solid #00ff00; padding:12px 35px; font-size:1rem; border-radius:6px; cursor:pointer; box-shadow:0 0 25px #00ff00; transition:all 0.3s; text-transform:uppercase; }
+.select-button:hover { background:#00ff00; color:#000; transform:scale(1.05); }
 
-        .enter-button:active {
-            transform: scale(0.95);
-        }
+#modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); justify-content:center; align-items:center; z-index:3000; }
+#modal.show { display:flex; }
+.modal-content { background:#001100; border:2px solid #00ff00; border-radius:12px; padding:2rem; max-width:450px; width:90%; text-align:center; box-shadow:0 0 40px #00ff00; }
+.modal-content h2 { color:#00ff00; margin-bottom:1.5rem; }
 
-        #video-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1500;
-        }
+.version-buttons { display:flex; flex-direction:column; gap:1rem; }
+.version-btn { background:#006600; color:#fff; border:2px solid #00ff00; padding:10px; font-size:0.9rem; border-radius:6px; cursor:pointer; transition:all 0.3s; text-transform:uppercase; }
+.version-btn:hover { background:#00ff00; color:#000; transform:scale(1.05); }
 
-        #video-container.show {
-            display: flex;
-        }
+.info-box { background:#002200; border:2px solid #00ff00; border-radius:8px; padding:1rem; margin-top:1rem; }
+.info-box h3 { color:#88ff88; margin-bottom:0.5rem; }
+.status.online { background:#00ff00; color:#000; padding:2px 6px; border-radius:4px; font-weight:bold; }
+.status.offline { background:#660000; color:#fff; padding:2px 6px; border-radius:4px; font-weight:bold; }
 
-        video {
-            max-width: 85%;
-            max-height: 85vh;
-            border-radius: 15px;
-            box-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
-        }
+footer { margin-top:4rem; text-align:center; font-size:0.7rem; color:#00ff00; text-shadow:0 0 10px #00ff00; }
 
-        #main-content {
-            width: 100%;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #000000 0%, #1a0000 50%, #000000 100%);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
+.staff-section { margin-top:3rem; display:flex; flex-wrap:wrap; justify-content:center; gap:1.5rem; }
+.staff-card { background:#001100; border:2px solid #00ff00; border-radius:8px; padding:1rem; width:150px; text-align:center; box-shadow:0 0 20px #00ff00; }
+.staff-card img { width:80px; border-radius:50%; border:2px solid #00ff00; margin-bottom:0.5rem; }
+.staff-card h4 { font-size:0.8rem; margin-bottom:0.2rem; }
+.staff-card span { font-size:0.7rem; color:#aaffaa; }
 
-        #main-content.show {
-            display: flex;
-        }
-
-        .main-wrapper {
-            text-align: center;
-            max-width: 600px;
-            width: 100%;
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            color: #ff0000;
-            text-shadow: 0 0 30px rgba(255, 0, 0, 0.8),
-                         0 0 60px rgba(255, 0, 0, 0.6);
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-            letter-spacing: 0.15em;
-        }
-
-        .subtitle {
-            font-size: 1.3rem;
-            color: #ff6666;
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
-            margin-bottom: 2rem;
-        }
-
-        .select-button {
-            background-color: #cc0000;
-            color: #ffffff;
-            border: 3px solid #ff0000;
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.7);
-            transition: all 0.3s ease;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: 1rem;
-        }
-
-        .select-button:hover {
-            background-color: #ff0000;
-            box-shadow: 0 0 50px rgba(255, 0, 0, 1);
-            transform: scale(1.05);
-        }
-
-        #modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            justify-content: center;
-            align-items: center;
-            z-index: 3000;
-        }
-
-        #modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background-color: #1a0000;
-            border: 3px solid #ff0000;
-            border-radius: 15px;
-            padding: 3rem 2rem;
-            box-shadow: 0 0 60px rgba(255, 0, 0, 0.8);
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-        }
-
-        .modal-content h2 {
-            font-size: 2rem;
-            color: #ff0000;
-            text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
-            margin-bottom: 2rem;
-        }
-
-        .version-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .version-btn {
-            background-color: #cc0000;
-            color: #ffffff;
-            border: 2px solid #ff0000;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
-            transition: all 0.3s ease;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .version-btn:hover {
-            background-color: #ff0000;
-            box-shadow: 0 0 40px rgba(255, 0, 0, 1);
-            transform: scale(1.05);
-        }
-
-        #server-info {
-            margin-top: 2rem;
-            display: none;
-        }
-
-        #server-info.show {
-            display: block;
-        }
-
-        .info-box {
-            background-color: #1a0000;
-            border: 2px solid #ff0000;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
-        }
-
-        .info-box h3 {
-            color: #ff3333;
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
-        }
-
-        .info-item {
-            margin: 0.8rem 0;
-            font-size: 1rem;
-            color: #ffffff;
-        }
-
-        .info-label {
-            color: #ff6666;
-            font-weight: bold;
-        }
-
-        .info-value {
-            color: #ffffff;
-            font-family: monospace;
-            word-break: break-all;
-            font-size: 0.95rem;
-        }
-
-        .status {
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            font-weight: bold;
-            display: inline-block;
-        }
-
-        .status.online {
-            background-color: #00cc00;
-            color: #000000;
-        }
-
-        .status.offline {
-            background-color: #cc0000;
-            color: #ffffff;
-        }
-
-        .copy-button {
-            background-color: #ff0000;
-            color: #ffffff;
-            border: 2px solid #ff3333;
-            padding: 10px 20px;
-            font-size: 0.95rem;
-            border-radius: 6px;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
-            transition: all 0.3s ease;
-            font-weight: bold;
-            margin-top: 1rem;
-        }
-
-        .copy-button:hover {
-            background-color: #ff3333;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 1);
-        }
-
-        .back-button {
-            background-color: #333333;
-            color: #ffffff;
-            border: 2px solid #666666;
-            padding: 10px 20px;
-            font-size: 0.95rem;
-            border-radius: 6px;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(100, 100, 100, 0.6);
-            transition: all 0.3s ease;
-            font-weight: bold;
-            margin-top: 1rem;
-        }
-
-        .back-button:hover {
-            background-color: #555555;
-            box-shadow: 0 0 25px rgba(100, 100, 100, 1);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background-color: transparent;
-            color: #ff0000;
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close-modal:hover {
-            color: #ff6666;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .subtitle {
-                font-size: 1rem;
-            }
-
-            .enter-button {
-                padding: 15px 35px;
-                font-size: 1.1rem;
-            }
-
-            .modal-content {
-                padding: 2rem 1rem;
-                max-width: 90%;
-            }
-
-            .modal-content h2 {
-                font-size: 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 0.9rem;
-            }
-
-            .enter-button {
-                padding: 12px 25px;
-                font-size: 0.95rem;
-            }
-
-            video {
-                max-width: 95%;
-                max-height: 80vh;
-            }
-
-            .modal-content {
-                padding: 1.5rem 1rem;
-            }
-
-            .info-box {
-                padding: 1rem;
-            }
-        }
-    </style>
+@media(max-width:768px){ .staff-section{flex-direction:column; align-items:center;} h1{font-size:2rem;} .subtitle{font-size:0.85rem;} .tagline{font-size:0.75rem;} }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="enter-screen">
-        <button class="enter-button" onclick="enterWebsite()">ENTER WEBSITE</button>
-    </div>
 
-    <div id="video-container">
-        <video id="intro-video" autoplay muted playsinline>
-            <source src="https://files.catbox.moe/oxz09v.mp4" type="video/mp4">
-        </video>
-    </div>
+<header>
+<div class="logo">VENOM FUN</div>
+<nav id="nav-links">
+<a href="#main-content">Home</a>
+<a href="#staff">Staff</a>
+<a href="https://discord.gg/" target="_blank">Join Discord</a>
+<a href="#news">Server News</a>
+</nav>
+<div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('show')">
+<div></div><div></div><div></div>
+</div>
+</header>
 
-    <div id="main-content">
-        <div class="main-wrapper">
-            <h1>VENOM FUN</h1>
-            <div class="subtitle">Official Lifesteal SMP</div>
-            <button class="select-button" onclick="openModal()">SELECT VERSION</button>
-        </div>
-    </div>
+<div id="enter-screen">
+<button class="enter-button" onclick="enterWebsite()">ENTER WEBSITE</button>
+</div>
 
-    <div id="modal">
-        <button class="close-modal" onclick="closeModal()">×</button>
-        <div class="modal-content">
-            <h2>Choose Edition</h2>
-            <div class="version-buttons">
-                <button class="version-btn" onclick="selectVersion('java', 'bloodyvenom.xav.lat:19134')">Java Edition</button>
-                <button class="version-btn" onclick="selectVersion('bedrock', 'us.realistichost.pro:19134')">Bedrock Edition</button>
-            </div>
-            <div id="server-info">
-                <div class="info-box">
-                    <h3 id="edition-title"></h3>
-                    <div class="info-item">
-                        <span class="info-label">IP:</span>
-                        <span class="info-value" id="server-ip"></span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Status:</span>
-                        <span class="status" id="server-status">Loading...</span>
-                    </div>
-                    <div class="info-item" id="player-count-item" style="display: none;">
-                        <span class="info-label">Players:</span>
-                        <span class="info-value" id="player-count"></span>
-                    </div>
-                    <button class="copy-button" onclick="copyIP()">COPY IP</button>
-                    <button class="back-button" onclick="backToVersions()">BACK</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="video-container">
+<video id="intro-video" autoplay muted playsinline>
+<source src="https://files.catbox.moe/a3fhgr.mp4" type="video/mp4">
+</video>
+</div>
 
-    <audio id="bg-music" loop>
-        <source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
-    </audio>
+<div id="main-content">
+<h1>VENOM FUN</h1>
+<div class="subtitle">Official Lifesteal SMP</div>
+<div class="tagline">The best Minecraft server where legends rise!</div>
+<button class="select-button" onclick="openModal()">SELECT VERSION</button>
 
-    <script>
-        let currentIP = '';
-        let currentVersion = '';
+<div class="staff-section" id="staff">
+<div class="staff-card">
+<img src="https://mc-heads.net/avatar/Steve" alt="Staff">
+<h4>SAHAL_PRO</h4>
+<span>Owner</span>
+</div>
+<div class="staff-card">
+<img src="https://mc-heads.net/avatar/CapedGuy" alt="Staff">
+<h4>Caped Guy</h4>
+<span>Admin</span>
+</div>
+</div>
 
-        function enterWebsite() {
-            document.getElementById('enter-screen').classList.add('hidden');
-            document.getElementById('video-container').classList.add('show');
-            
-            const bgMusic = document.getElementById('bg-music');
-            bgMusic.volume = 1.0;
-            bgMusic.play().catch(() => {});
+<div id="news" style="margin-top:3rem; text-align:center;">
+<h2 style="color:#00ff00; text-shadow:0 0 10px #00ff00;">Server News</h2>
+<p style="color:#aaffaa;">Next Lifesteal event coming soon! Stay tuned.</p>
+</div>
+</div>
 
-            const video = document.getElementById('intro-video');
-            video.addEventListener('ended', showMainContent, { once: true });
-        }
+<div id="modal">
+<button class="close-modal" onclick="closeModal()">×</button>
+<div class="modal-content">
+<h2>Choose Edition</h2>
+<div class="version-buttons">
+<button class="version-btn" onclick="selectVersion('java', 'bloodyvenom.xav.lat:19134')">Java Edition</button>
+<button class="version-btn" onclick="selectVersion('bedrock', 'us.realistichost.pro:19134')">Bedrock Edition</button>
+</div>
+<div id="server-info">
+<div class="info-box">
+<h3 id="edition-title"></h3>
+<div class="info-item">
+<span class="info-label">IP:</span>
+<span class="info-value" id="server-ip"></span>
+</div>
+<div class="info-item">
+<span class="info-label">Status:</span>
+<span class="status" id="server-status">Loading...</span>
+</div>
+<div class="info-item" id="player-count-item" style="display:none;">
+<span class="info-label">Players:</span>
+<span class="info-value" id="player-count"></span>
+</div>
+<button class="copy-button" onclick="copyIP()">COPY IP</button>
+<button class="back-button" onclick="backToVersions()">BACK</button>
+</div>
+</div>
+</div>
+</div>
 
-        function showMainContent() {
-            document.getElementById('video-container').classList.remove('show');
-            document.getElementById('main-content').classList.add('show');
-        }
+<audio id="bg-music" loop>
+<source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
+</audio>
 
-        function openModal() {
-            document.getElementById('modal').classList.add('show');
-            document.getElementById('server-info').classList.remove('show');
-        }
+<footer>Powered by JARVIS</footer>
 
-        function closeModal() {
-            document.getElementById('modal').classList.remove('show');
-            document.getElementById('server-info').classList.remove('show');
-        }
-
-        function backToVersions() {
-            document.getElementById('server-info').classList.remove('show');
-        }
-
-        function selectVersion(version, ip) {
-            currentVersion = version;
-            currentIP = ip;
-
-            const editionTitle = version === 'java' ? 'JAVA EDITION' : 'BEDROCK EDITION';
-            document.getElementById('edition-title').textContent = editionTitle;
-            document.getElementById('server-ip').textContent = ip;
-            document.getElementById('server-info').classList.add('show');
-
-            fetchServerStatus(ip);
-        }
-
-        function fetchServerStatus(ip) {
-            const statusElement = document.getElementById('server-status');
-            const playerCountElement = document.getElementById('player-count');
-            const playerCountItem = document.getElementById('player-count-item');
-
-            statusElement.textContent = 'Loading...';
-            playerCountItem.style.display = 'none';
-
-            fetch(`https://api.mcsrvstat.us/2/${ip}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.online) {
-                        statusElement.textContent = 'ONLINE';
-                        statusElement.className = 'status online';
-                        const players = data.players ? data.players.online : 0;
-                        const maxPlayers = data.players ? data.players.max : 0;
-                        playerCountElement.textContent = `${players}/${maxPlayers}`;
-                        playerCountItem.style.display = 'block';
-                    } else {
-                        statusElement.textContent = 'OFFLINE';
-                        statusElement.className = 'status offline';
-                        playerCountItem.style.display = 'none';
-                    }
-                })
-                .catch(() => {
-                    statusElement.textContent = 'UNKNOWN';
-                    statusElement.className = 'status offline';
-                    playerCountItem.style.display = 'none';
-                });
-        }
-
-        function copyIP() {
-            navigator.clipboard.writeText(currentIP).then(() => {
-                const button = event.target;
-                const originalText = button.textContent;
-                button.textContent = 'COPIED!';
-                setTimeout(() => {
-                    button.textContent = originalText;
-                }, 2000);
-            }).catch(() => {
-                alert('Failed to copy IP');
-            });
-        }
-    </script>
+<script>
+let currentIP='', currentVersion='';
+function enterWebsite(){
+document.getElementById('enter-screen').classList.add('hidden');
+document.getElementById('video-container').classList.add('show');
+const bgMusic=document.getElementById('bg-music'); bgMusic.volume=1.0; bgMusic.play().catch(()=>{});
+const video=document.getElementById('intro-video'); video.addEventListener('ended',showMainContent,{once:true});
+}
+function showMainContent(){document.getElementById('video-container').classList.remove('show'); document.getElementById('main-content').classList.add('show');}
+function openModal(){document.getElementById('modal').classList.add('show'); document.getElementById('server-info').classList.remove('show');}
+function closeModal(){document.getElementById('modal').classList.remove('show'); document.getElementById('server-info').classList.remove('show');}
+function backToVersions(){document.getElementById('server-info').classList.remove('show');}
+function selectVersion(version,ip){currentVersion=version; currentIP=ip;
+document.getElementById('edition-title').textContent=(version==='java'?'JAVA EDITION':'BEDROCK EDITION');
+document.getElementById('server-ip').textContent=ip;
+document.getElementById('server-info').classList.add('show'); fetchServerStatus(ip);}
+function fetchServerStatus(ip){
+const statusElement=document.getElementById('server-status');
+const playerCountElement=document.getElementById('player-count');
+const playerCountItem=document.getElementById('player-count-item');
+statusElement.textContent='Loading...'; playerCountItem.style.display='none';
+fetch(`https://api.mcsrvstat.us/2/${ip}`).then(r=>r.json()).then(data=>{
+if(data.online){statusElement.textContent='ONLINE'; statusElement.className='status online';
+const players=data.players?data.players.online:0; const maxPlayers=data.players?data.players.max:0;
+playerCountElement.textContent=`${players}/${maxPlayers}`; playerCountItem.style.display='block';} else {statusElement.textContent='OFFLINE'; statusElement.className='status offline'; playerCountItem.style.display='none';}}).catch(()=>{statusElement.textContent='UNKNOWN'; statusElement.className='status offline'; playerCountItem.style.display='none';});}
+function copyIP(){navigator.clipboard.writeText(currentIP).then(()=>{const button=event.target; const originalText=button.textContent; button.textContent='COPIED!'; setTimeout(()=>{button.textContent=originalText;},2000);}).catch(()=>{alert('Failed to copy IP');});}
+</script>
 </body>
 </html>
