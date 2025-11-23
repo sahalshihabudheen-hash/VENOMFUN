@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VENOM FUN - Lifesteal SMP</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { height: 100%; width: 100%; background: #000; overflow: hidden; }
+
+    /* Video Splash Screen */
+    #intro-video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 10;
+    }
+
+    #main-content {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.2s ease;
+      height: 100vh;
+      width: 100vw;
+      background: url('bg.jpg') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
+
+    .title {
+      font-size: 4rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 0 0 20px #0f0;
+    }
+
+    .subtitle {
+      font-size: 1.5rem;
+      opacity: 0.8;
+      margin-bottom: 40px;
+    }
+
+    .ip-box {
+      background: rgba(0,0,0,0.6);
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #0f0;
+      margin-bottom: 20px;
+    }
+
+    .ip-box h3 { margin-bottom: 10px; color: #0f0; }
+  </style>
+</head>
+<body>
+
+  <!-- VIDEO SPLASH (replace src with your file path below) -->
+  <video id="intro-video" src="/mnt/data/output_free1-ezgif.com-crop-video.mp4" autoplay muted></video>
+
+  <!-- MAIN PAGE CONTENT -->
+  <div id="main-content">
+    <div class="title">VENOM FUN</div>
+    <div class="subtitle">Official Lifesteal SMP</div>
+
+    <div class="ip-box">
+      <h3>JAVA EDITION</h3>
+      <p>Name: VENOM FUN</p>
+      <p>IP: bloodyvenom.xav.lat:19134</p>
+    </div>
+
+    <div class="ip-box">
+      <h3>POCKET EDITION</h3>
+      <p>Name: VENOM FUN</p>
+      <p>IP: us.realistichost.pro</p>
+      <p>Port: 19134</p>
+    </div>
+  </div>
+
+  <script>
+    const video = document.getElementById("intro-video");
+    const main = document.getElementById("main-content");
+
+    video.onended = () => {
+      video.style.display = "none";
+      main.style.opacity = 1;
+      main.style.pointerEvents = "auto";
+      document.body.style.overflow = "auto";
+    };
+  </script>
+
+</body>
+</html>
