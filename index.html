@@ -1,84 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VENOMFUM</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: black;
-      font-family: Arial, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VENOMFUM - Minecraft Lifesteal Server</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* Background video small for phone */
-    #bg-video {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90vw;
-      height: auto;
-      max-height: 60vh;
-      object-fit: cover;
-      border-radius: 15px;
-      box-shadow: 0 0 20px #00ffea88;
-    }
+        body {
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
 
-    /* Content text */
-    .content {
-      position: absolute;
-      top: 70%;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      color: white;
-      width: 100%;
-      font-size: 1.8rem;
-      text-shadow: 0 0 15px #00fff2;
-    }
-  </style>
+        .container {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.6),
+                        0 0 80px rgba(0, 255, 255, 0.4);
+        }
+
+        .text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 5rem;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                         0 0 40px rgba(255, 255, 255, 0.6),
+                         0 0 60px rgba(255, 255, 255, 0.4);
+            margin-bottom: 1rem;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6),
+                         0 0 20px rgba(255, 255, 255, 0.4);
+            font-weight: normal;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <video id="bgVideo" autoplay muted loop playsinline>
+            <source src="https://files.catbox.moe/oxz09v.mp4" type="video/mp4">
+        </video>
+        <div class="text-overlay">
+            <h1>VENOMFUM</h1>
+            <h2>Minecraft Lifesteal Server</h2>
+        </div>
+    </div>
 
-  <!-- Background Video -->
-  <video id="bg-video" autoplay loop muted playsinline>
-    <source src="https://files.catbox.moe/oxz09v.mp4" type="video/mp4">
-  </video>
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
+    </audio>
 
-  <!-- Minecraft Theme Music -->
-  <audio id="bg-music" autoplay muted playsinline>
-    <source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
-  </audio>
+    <script>
+        const audio = document.getElementById('bgMusic');
+        const video = document.getElementById('bgVideo');
+        let audioStarted = false;
 
-  <!-- Content -->
-  <div class="content">
-    <h1>VENOMFUM</h1>
-    <p>Minecraft Server</p>
-  </div>
+        function startAudio() {
+            if (!audioStarted) {
+                audio.muted = false;
+                audio.volume = 1.0;
+                audio.play().catch(() => {});
+                audioStarted = true;
+            }
+        }
 
-  <script>
-    const music = document.getElementById("bg-music");
+        audio.muted = true;
+        audio.play().then(() => {
+            setTimeout(() => {
+                startAudio();
+            }, 1000);
+        }).catch(() => {});
 
-    // Browser safe autoplay workaround
-    setTimeout(() => {
-      music.muted = false;       // unmute
-      music.volume = 1.0;        // 100% volume
-      music.play().catch(() => {
-        console.log("Autoplay blocked, trying again after user movement");
-
-        // Second try when user touches screen
-        document.body.addEventListener("pointerdown", () => {
-          music.muted = false;
-          music.volume = 1.0;
-          music.play();
-        }, { once: true });
-      });
-    }, 800);
-  </script>
-
+        document.body.addEventListener('click', startAudio, { once: true });
+        document.body.addEventListener('touchstart', startAudio, { once: true });
+    </script>
 </body>
 </html>
