@@ -55,10 +55,22 @@
         .staff-name {font-size:0.9rem;color:#fff;margin-bottom:0.5rem;text-shadow:0 0 10px rgba(255,255,255,0.5);}
         .staff-role {font-size:0.7rem;color:#55ff55;text-shadow:0 0 10px rgba(85,255,85,0.5);}
 
-        .footer {background:#1a1a1a;border-top:4px solid #000;padding:1.5rem;text-align:center;margin-top:4rem;font-size:0.7rem;color:#55ff55;text-shadow:2px 2px 0 #000;letter-spacing:1px;}
+        .footer {background:#1a1a1a;border-top:4px solid #000;padding:2rem;text-align:center;margin-top:4rem;box-shadow:0 -4px 8px rgba(0,0,0,0.5);}
+        .powered-by {font-size:1rem;color:#55ff55;text-shadow:3px 3px 0 #000,4px 4px 0 #003f00;font-weight:bold;letter-spacing:3px;animation:float 3s ease-in-out infinite;}
 
-        @media(max-width:768px){.nav-logo{font-size:0.8rem;}.nav-links{display:none;}.hamburger{display:flex;}.page-title{font-size:1.2rem;}.staff-grid{grid-template-columns:1fr;}#loading-video{max-width:80%;max-height:80%;}}
-        @media(max-width:480px){#loading-video{max-width:70%;max-height:70%;}}
+        @media(max-width:768px){
+            .nav-logo{font-size:0.8rem;}
+            .nav-links{display:none;}
+            .hamburger{display:flex;}
+            .page-title{font-size:1.2rem;}
+            .staff-grid{grid-template-columns:1fr;}
+            #loading-video{max-width:80%;max-height:80%;}
+            .powered-by{font-size:0.8rem;}
+        }
+        @media(max-width:480px){
+            #loading-video{max-width:70%;max-height:70%;}
+            .powered-by{font-size:0.7rem;}
+        }
         @media(min-width:769px) and (max-width:1024px){.staff-grid{grid-template-columns:repeat(2,1fr);}}
         @media(min-width:1025px){.staff-grid{grid-template-columns:repeat(4,1fr);}}
     </style>
@@ -82,14 +94,14 @@
     </video>
     <div class="bg-overlay"></div>
 
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" loop preload="auto">
         <source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
     </audio>
 
     <nav class="navbar">
         <div class="nav-logo">⛏ VENOM FUN ⛏</div>
         <div class="nav-links">
-            <a class="nav-link" href="index.html">HOME</a>
+            <a class="nav-link" href="index-venom.html">HOME</a>
             <a class="nav-link" href="staff.html">STAFF</a>
         </div>
         <div class="hamburger" onclick="toggleMobileMenu()">
@@ -97,7 +109,7 @@
         </div>
     </nav>
     <div class="mobile-menu" id="mobile-menu">
-        <a class="nav-link" href="index.html" onclick="toggleMobileMenu()">HOME</a>
+        <a class="nav-link" href="index-venom.html" onclick="toggleMobileMenu()">HOME</a>
         <a class="nav-link" href="staff.html" onclick="toggleMobileMenu()">STAFF</a>
     </div>
 
@@ -106,7 +118,9 @@
         <div class="staff-grid" id="staffGrid"></div>
     </div>
 
-    <footer class="footer">Powered by JARVIS</footer>
+    <footer class="footer">
+        <div class="powered-by">⚡ POWERED BY JARVIS ⚡</div>
+    </footer>
 
     <script>
         // Staff ordered hierarchically: Owner → Co-Owners → Manager → Developer → Admins
@@ -128,6 +142,7 @@
         const staffGrid = document.getElementById('staffGrid');
         
         bgMusic.volume = 0.2;
+        bgMusic.loop = true; // Ensure loop is enabled
         let bgMusicEnabled = false;
         let userInteracted = false;
 
@@ -169,6 +184,12 @@
                 audioPrompt.classList.remove('show');
             });
         }
+
+        // Ensure music continues looping
+        bgMusic.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        });
 
         document.addEventListener('click', () => {
             if (!bgMusicEnabled) {
