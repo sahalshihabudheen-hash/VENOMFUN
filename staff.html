@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VENOM FUN - Staff Team</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>VENOMFUM - Staff Team</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         * {
@@ -15,81 +13,132 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #1a1a1a 100%);
-            font-family: 'Press Start 2P', cursive;
-            color: #ffffff;
-            min-height: 100vh;
-            padding: 2rem;
-            image-rendering: pixelated;
+            font-family: 'Press Start+2P', cursive;
+            overflow-x: hidden;
+            background: #000;
+            color: #fff;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        /* Background Video */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-            animation: fadeIn 1s ease-out;
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
         }
 
-        .back-button {
-            background: linear-gradient(180deg, #666666 0%, #4a4a4a 100%);
-            border: 4px solid #2d2d2d;
-            border-bottom-width: 6px;
-            color: #ffffff;
-            padding: 12px 30px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            box-shadow: 0 6px 0 #1a1a1a, 0 0 20px rgba(0, 0, 0, 0.5);
-            transition: all 0.1s ease;
-            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+        /* Navbar */
+        .navbar {
+            background: rgba(20, 20, 20, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #00ff00;
+            box-shadow: 0 4px 20px rgba(0, 255, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.2rem;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+            letter-spacing: 2px;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .navbar-links a {
+            color: #fff;
             text-decoration: none;
-            display: inline-block;
-            margin-bottom: 2rem;
-        }
-
-        .back-button:hover {
-            background: linear-gradient(180deg, #777777 0%, #5a5a5a 100%);
-            transform: translateY(2px);
-            box-shadow: 0 4px 0 #1a1a1a, 0 0 30px rgba(0, 0, 0, 0.7);
-        }
-
-        .back-button:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #1a1a1a;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: #ffdd55;
-            text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
-            margin-bottom: 1rem;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .subtitle {
             font-size: 0.8rem;
-            color: #88cc88;
-            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border: 2px solid transparent;
         }
 
+        .navbar-links a:hover {
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            border: 2px solid #00ff00;
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #00ff00;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2rem;
+            color: #00ff00;
+            text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+            margin-bottom: 3rem;
+            letter-spacing: 3px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; }
+            50% { text-shadow: 0 0 30px #00ff00, 0 0 60px #00ff00, 0 0 80px #00ff00; }
+        }
+
+        /* Staff Grid */
         .staff-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
             margin-bottom: 3rem;
-            animation: fadeIn 1.2s ease-out;
         }
 
         .staff-card {
-            background: linear-gradient(180deg, #3a3a3a 0%, #2d2d2d 100%);
-            border: 6px solid #1a1a1a;
+            background: rgba(30, 30, 30, 0.6);
+            backdrop-filter: blur(10px);
+            border: 3px solid #00ff00;
+            border-radius: 8px;
             padding: 2rem;
             text-align: center;
-            box-shadow: 0 8px 0 #000000, 0 0 30px rgba(0, 0, 0, 0.7);
-            transition: all 0.3s ease;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 255, 0, 0.2);
+            animation: float 3s ease-in-out infinite;
             position: relative;
             overflow: hidden;
         }
@@ -97,316 +146,426 @@
         .staff-card::before {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, transparent, rgba(136, 204, 136, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 0;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(0, 255, 0, 0.03) 10px,
+                rgba(0, 255, 0, 0.03) 20px
+            );
+            pointer-events: none;
         }
 
         .staff-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 0 #000000, 0 0 50px rgba(136, 204, 136, 0.3);
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 8px 40px rgba(0, 255, 0, 0.5);
+            border-color: #00ff00;
         }
 
-        .staff-card:hover::before {
-            opacity: 1;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        .staff-card > * {
-            position: relative;
-            z-index: 1;
-        }
+        .staff-card:nth-child(2) { animation-delay: 0.5s; }
+        .staff-card:nth-child(3) { animation-delay: 1s; }
+        .staff-card:nth-child(4) { animation-delay: 1.5s; }
+        .staff-card:nth-child(5) { animation-delay: 2s; }
+        .staff-card:nth-child(6) { animation-delay: 2.5s; }
+        .staff-card:nth-child(7) { animation-delay: 3s; }
+        .staff-card:nth-child(8) { animation-delay: 3.5s; }
 
         .avatar-container {
             position: relative;
             width: 120px;
             height: 120px;
             margin: 0 auto 1.5rem;
-            border: 6px solid #4a4a4a;
-            box-shadow: 0 0 0 2px #1a1a1a, inset 0 0 20px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease;
-        }
-
-        .staff-card:hover .avatar-container {
-            border-color: #88cc88;
-            box-shadow: 0 0 0 2px #1a1a1a, 0 0 30px rgba(136, 204, 136, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
         .avatar {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            image-rendering: pixelated;
-        }
-
-        .status-badge {
-            position: absolute;
-            bottom: -6px;
-            right: -6px;
-            width: 24px;
-            height: 24px;
             border-radius: 50%;
-            border: 4px solid #2d2d2d;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            border: 3px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            position: relative;
+            z-index: 2;
         }
 
-        .status-badge.online {
-            background: linear-gradient(135deg, #88cc88 0%, #5a8f5a 100%);
-            box-shadow: 0 2px 8px rgba(136, 204, 136, 0.6), 0 0 15px rgba(136, 204, 136, 0.4);
+        .avatar-decoration {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            z-index: 3;
+            pointer-events: none;
         }
 
-        .status-badge.offline {
-            background: linear-gradient(135deg, #666666 0%, #4a4a4a 100%);
+        .profile-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            z-index: 1;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 30px #00ff00);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         .staff-name {
-            font-size: 0.9rem;
-            color: #ffffff;
-            margin-bottom: 0.8rem;
-            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
-            word-wrap: break-word;
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         .staff-role {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            font-size: 0.6rem;
-            border: 3px solid;
-            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
-            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
         }
 
-        .role-owner {
-            background: linear-gradient(180deg, #cc5555 0%, #8f3a3a 100%);
-            border-color: #6b2020;
-            color: #ffffff;
+        /* Hidden Card */
+        .staff-card.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.8);
         }
 
-        .role-coowner {
-            background: linear-gradient(180deg, #dd8833 0%, #aa6622 100%);
-            border-color: #884411;
-            color: #ffffff;
+        .staff-card.revealed {
+            animation: revealCard 0.8s ease-out forwards;
         }
 
-        .role-manager {
-            background: linear-gradient(180deg, #9966cc 0%, #774499 100%);
-            border-color: #552277;
-            color: #ffffff;
-        }
-
-        .role-admin {
-            background: linear-gradient(180deg, #cc88cc 0%, #996699 100%);
-            border-color: #664466;
-            color: #ffffff;
-        }
-
-        .role-developer {
-            background: linear-gradient(180deg, #5588cc 0%, #3366aa 100%);
-            border-color: #224488;
-            color: #ffffff;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 4rem;
-            padding: 2rem;
-            animation: fadeIn 1.5s ease-out;
-        }
-
-        .footer-text {
-            font-size: 0.6rem;
-            color: #88cc88;
-            text-shadow: 0 0 10px rgba(136, 204, 136, 0.5), 2px 2px 0 rgba(0, 0, 0, 0.5);
-        }
-
-        @keyframes fadeIn {
-            from {
+        @keyframes revealCard {
+            0% {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: scale(0.8) rotateY(180deg);
             }
-            to {
+            100% {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1) rotateY(0deg);
             }
         }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
+        /* Secret Button */
+        .secret-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
         }
 
+        .secret-button:hover {
+            background: rgba(0, 255, 0, 0.4);
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.6);
+            transform: scale(1.1);
+        }
+
+        .secret-button.hidden {
+            display: none;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(20, 20, 20, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+            border-top: 3px solid #00ff00;
+            box-shadow: 0 -4px 20px rgba(0, 255, 0, 0.3);
+            font-size: 0.7rem;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            body {
+            .navbar-brand {
+                font-size: 0.8rem;
+            }
+
+            .navbar-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(20, 20, 20, 0.95);
+                flex-direction: column;
+                gap: 0;
                 padding: 1rem;
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.3s;
             }
 
-            h1 {
-                font-size: 1.8rem;
+            .navbar-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
             }
 
-            .subtitle {
-                font-size: 0.6rem;
+            .navbar-links a {
+                padding: 1rem;
+                border-bottom: 1px solid rgba(0, 255, 0, 0.2);
             }
 
-            .staff-grid {
-                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-                gap: 1.5rem;
+            .hamburger {
+                display: flex;
             }
 
-            .staff-card {
-                padding: 1.5rem;
-            }
-
-            .avatar-container {
-                width: 100px;
-                height: 100px;
-            }
-
-            .staff-name {
-                font-size: 0.7rem;
-            }
-
-            .back-button {
-                font-size: 0.6rem;
-                padding: 10px 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.3rem;
+            .page-title {
+                font-size: 1.2rem;
             }
 
             .staff-grid {
                 grid-template-columns: 1fr;
             }
         }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .staff-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .staff-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Audio Control */
+        .audio-control {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 3rem;
+            border: 3px solid #00ff00;
+            border-radius: 8px;
+            text-align: center;
+            z-index: 9999;
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.5);
+        }
+
+        .audio-control.hidden {
+            display: none;
+        }
+
+        .audio-control h2 {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            color: #00ff00;
+        }
+
+        .audio-control button {
+            background: #00ff00;
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            font-family: 'Press Start+2P', cursive;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4);
+        }
+
+        .audio-control button:hover {
+            background: #00cc00;
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(0, 255, 0, 0.6);
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <a href="index.html" class="back-button">← BACK TO HOME</a>
-            <h1>STAFF TEAM</h1>
-            <div class="subtitle">Meet Our Amazing Team</div>
+    <!-- Background Video -->
+    <video class="bg-video" autoplay muted loop playsinline>
+        <source src="https://files.catbox.moe/a3fhgr.mp4" type="video/mp4">
+    </video>
+    <div class="bg-overlay"></div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Audio Control Popup -->
+    <div class="audio-control" id="audioControl">
+        <h2>Click to Start Music</h2>
+        <button onclick="startMusic()">ENTER</button>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">VENOMFUM STAFF TEAM</div>
+        <ul class="navbar-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#staff">Staff</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
+    </nav>
 
-        <div class="staff-grid" id="staffGrid"></div>
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="page-title">STAFF TEAM</h1>
+        
+        <div class="staff-grid" id="staffGrid">
+            <!-- Gif TV - Manager -->
+            <div class="staff-card">
+                <div class="avatar-container">
+                    <img src="https://i.postimg.cc/SxXHsRBF/GIF.png" alt="Gif TV" class="avatar">
+                    <img src="https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png" alt="decoration" class="avatar-decoration">
+                </div>
+                <div class="staff-name">Gif TV</div>
+                <div class="staff-role">Manager</div>
+            </div>
 
-        <div class="footer">
-            <div class="footer-text">Powered by JARVIS</div>
+            <!-- Nep Breezy - Developer -->
+            <div class="staff-card">
+                <div class="avatar-container">
+                    <img src="https://i.postimg.cc/XJ7MkbH0/NEP.png" alt="Nep Breezy" class="avatar">
+                    <img src="https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png" alt="decoration" class="avatar-decoration">
+                </div>
+                <div class="staff-name">Nep Breezy</div>
+                <div class="staff-role">Developer</div>
+            </div>
+
+            <!-- Blazecore - Admin -->
+            <div class="staff-card">
+                <div class="avatar-container">
+                    <img src="https://i.postimg.cc/QMZh5vZK/ZORO.png" alt="Blazecore" class="avatar">
+                </div>
+                <div class="staff-name">Blazecore</div>
+                <div class="staff-role">Admin</div>
+            </div>
+
+            <!-- Gorkhali Warrior - Admin -->
+            <div class="staff-card">
+                <div class="avatar-container">
+                    <img src="https://i.postimg.cc/MTxZkN94/gorkhali.png" alt="Gorkhali Warrior" class="avatar">
+                    <img src="https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png" alt="decoration" class="avatar-decoration">
+                </div>
+                <div class="staff-name">Gorkhali Warrior</div>
+                <div class="staff-role">Admin</div>
+            </div>
+
+            <!-- Trident - Admin -->
+            <div class="staff-card">
+                <div class="avatar-container">
+                    <img src="https://i.postimg.cc/6Qcg3P9F/Tr1dent.png" alt="Trident" class="avatar">
+                </div>
+                <div class="staff-name">Trident</div>
+                <div class="staff-role">Admin</div>
+            </div>
+
+            <!-- Sahal Pro - Co Owner (HIDDEN) -->
+            <div class="staff-card hidden" id="sahalCard">
+                <div class="avatar-container">
+                    <img src="https://cdn.discordapp.com/assets/content/bec17fc4cb484d1f557c66aec2f0573fb07a5bb7988e1bbec797f583e7db14c5" alt="effect" class="profile-effect">
+                    <img src="https://i.postimg.cc/kgfLMZX7/SAHAL-PRO.png" alt="Sahal Pro" class="avatar">
+                    <img src="https://cdn.discordapp.com/avatar-decoration-presets/a_1005898c6acf56a9ac5010baf444f6fd.png" alt="decoration" class="avatar-decoration">
+                </div>
+                <div class="staff-name">Sahal Pro</div>
+                <div class="staff-role">Co Owner</div>
+            </div>
+
+            <!-- LKT Gaming - Co Owner -->
+            <div class="staff-card">
+                <div class="avatar-container">
+                    <img src="https://i.postimg.cc/sDprzwh1/LKT.png" alt="LKT Gaming" class="avatar">
+                </div>
+                <div class="staff-name">LKT Gaming</div>
+                <div class="staff-role">Co Owner</div>
+            </div>
+
+            <!-- PratikPlayz - Owner -->
+            <div class="staff-card">
+                <div class="avatar-container">
+                    <img src="https://i.postimg.cc/5Nvx0fDh/pratik.png" alt="PratikPlayz" class="avatar">
+                    <img src="https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png" alt="decoration" class="avatar-decoration">
+                </div>
+                <div class="staff-name">PratikPlayz</div>
+                <div class="staff-role">Owner</div>
+            </div>
         </div>
     </div>
 
+    <!-- Secret Button -->
+    <button class="secret-button" id="secretBtn" onclick="revealSahal()">?</button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        © 2025 VENOMFUM — Staff Team
+    </footer>
+
     <script>
-        // Toggle to show/hide Sahal Pro's card
-        const showSahalPro = true;
-
-        const staffMembers = [
-            {
-                name: "PratikPlayz",
-                role: "Owner",
-                discordId: "1208304615699910657",
-                roleClass: "role-owner",
-                online: true
-            },
-            {
-                name: "Sahal Pro",
-                role: "Co Owner",
-                discordId: "1146350719507648643",
-                roleClass: "role-coowner",
-                online: true,
-                hidden: !showSahalPro
-            },
-            {
-                name: "Lkt Gaming",
-                role: "Co Owner",
-                discordId: "1055329631290540063",
-                roleClass: "role-coowner",
-                online: false
-            },
-            {
-                name: "Gif tv",
-                role: "Manager",
-                discordId: "1146350719507648643",
-                roleClass: "role-manager",
-                online: true
-            },
-            {
-                name: "Nep Breezy",
-                role: "Developer",
-                discordId: "0",
-                roleClass: "role-developer",
-                online: false
-            },
-            {
-                name: "Zorobhai",
-                role: "Admin",
-                discordId: "1405171029994770452",
-                roleClass: "role-admin",
-                online: true
-            },
-            {
-                name: "Gorkhali Warrior",
-                role: "Admin",
-                discordId: "1370706879382163556",
-                roleClass: "role-admin",
-                online: false
-            },
-            {
-                name: "Trident",
-                role: "Admin",
-                discordId: "1294310004429553665",
-                roleClass: "role-admin",
-                online: true
-            }
-        ];
-
-        function getDiscordAvatar(discordId) {
-            if (discordId === "0") {
-                return "https://cdn.discordapp.com/embed/avatars/0.png";
-            }
-            return `https://cdn.discordapp.com/avatars/${discordId}/a_default.png?size=256`;
+        // Audio Control
+        function startMusic() {
+            const audio = document.getElementById('bgMusic');
+            const audioControl = document.getElementById('audioControl');
+            audio.play();
+            audioControl.classList.add('hidden');
         }
 
-        function renderStaff() {
-            const staffGrid = document.getElementById('staffGrid');
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Reveal Sahal Pro Card
+        function revealSahal() {
+            const sahalCard = document.getElementById('sahalCard');
+            const secretBtn = document.getElementById('secretBtn');
             
-            staffMembers
-                .filter(member => !member.hidden)
-                .forEach((member, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'staff-card';
-                    card.style.animationDelay = `${index * 0.1}s`;
-
-                    const avatarUrl = getDiscordAvatar(member.discordId);
-                    const statusClass = member.online ? 'online' : 'offline';
-
-                    card.innerHTML = `
-                        <div class="avatar-container">
-                            <img src="${avatarUrl}" 
-                                 alt="${member.name}" 
-                                 class="avatar"
-                                 onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-                            <div class="status-badge ${statusClass}"></div>
-                        </div>
-                        <div class="staff-name">${member.name}</div>
-                        <div class="staff-role ${member.roleClass}">${member.role}</div>
-                    `;
-
-                    staffGrid.appendChild(card);
-                });
+            sahalCard.classList.remove('hidden');
+            sahalCard.classList.add('revealed');
+            secretBtn.classList.add('hidden');
         }
 
-        renderStaff();
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navLinks = document.getElementById('navLinks');
+            const hamburger = document.querySelector('.hamburger');
+            const navbar = document.querySelector('.navbar');
+            
+            if (!navbar.contains(event.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
