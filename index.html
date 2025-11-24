@@ -53,11 +53,21 @@
 
     footer {background:#1a1a1a;border-top:4px solid #000;padding:1.5rem;text-align:center;margin-top:4rem;font-size:0.9rem;color:#ffed4e;text-shadow:2px 2px 0 #000;letter-spacing:1px;}
 
-    @media(max-width:768px){.nav-links{display:none;}.hamburger{display:flex;}h1{font-size:2.5rem;}.subtitle{font-size:0.9rem;}.server-info h2{font-size:1.4rem;}.edition-buttons{flex-direction:column;}}
-    @media(max-width:480px){h1{font-size:2rem;}.subtitle{font-size:0.75rem;}}
+    #loading-screen {position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;justify-content:center;align-items:center;z-index:9999;transition:opacity 0.5s ease-out;}
+    #loading-screen.fade-out {opacity:0;pointer-events:none;}
+    #loading-video {max-width:90%;max-height:90%;width:auto;height:auto;border:4px solid #ffed4e;box-shadow:0 0 20px rgba(255,237,78,0.5);}
+
+    @media(max-width:768px){.nav-links{display:none;}.hamburger{display:flex;}h1{font-size:2.5rem;}.subtitle{font-size:0.9rem;}.server-info h2{font-size:1.4rem;}.edition-buttons{flex-direction:column;}#loading-video{max-width:80%;max-height:80%;}}
+    @media(max-width:480px){h1{font-size:2rem;}.subtitle{font-size:0.75rem;}#loading-video{max-width:70%;max-height:70%;}}
 </style>
 </head>
 <body>
+
+<div id="loading-screen">
+    <video id="loading-video" autoplay muted playsinline>
+        <source src="https://files.catbox.moe/oxz09v.mp4" type="video/mp4">
+    </video>
+</div>
 
 <video id="bg-video" autoplay loop muted playsinline>
     <source src="https://files.catbox.moe/a3fhgr.mp4" type="video/mp4">
@@ -119,6 +129,30 @@
     const bgMusic = document.getElementById('bg-music');
     bgMusic.volume = 0.2;
     bgMusic.play().catch(()=>{});
+
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingVideo = document.getElementById('loading-video');
+    
+    // Check if loading screen has been shown in this session
+    if (sessionStorage.getItem('loadingShown')) {
+        loadingScreen.style.display = 'none';
+    } else {
+        loadingVideo.addEventListener('ended', () => {
+            loadingScreen.classList.add('fade-out');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                sessionStorage.setItem('loadingShown', 'true');
+            }, 500);
+        });
+        
+        setTimeout(() => {
+            loadingScreen.classList.add('fade-out');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                sessionStorage.setItem('loadingShown', 'true');
+            }, 500);
+        }, 5000);
+    }
 
     let currentEdition = null;
 
