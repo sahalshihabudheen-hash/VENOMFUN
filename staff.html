@@ -30,15 +30,6 @@
         .mobile-menu {display:none;position:fixed;top:80px;right:10px;background:#2d2d2d;border:4px solid #000;padding:1.5rem;flex-direction:column;gap:1rem;z-index:999;box-shadow:4px 4px 0 #000;}
         .mobile-menu.show {display:flex;}
 
-        /* Theme Toggle */
-        .theme-toggle {position:fixed;bottom:20px;left:20px;z-index:100;display:flex;gap:0.5rem;flex-wrap:wrap;max-width:200px;}
-        .theme-btn {width:35px;height:35px;border:3px solid #000;cursor:pointer;transition:all 0.2s;box-shadow:2px 2px 0 #000;}
-        .theme-btn:hover {transform:scale(1.1);box-shadow:3px 3px 0 #000;}
-        .theme-btn[data-theme="dark"] {background:#1a1a1a;}
-        .theme-btn[data-theme="grass"] {background:#55ff55;}
-        .theme-btn[data-theme="dirt"] {background:#cd853f;}
-        .theme-btn[data-theme="nether"] {background:#ff5555;}
-        .theme-btn[data-theme="end"] {background:#d946ef;}
 
         /* Audio Control Overlay */
         .audio-prompt {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:10000;display:flex;justify-content:center;align-items:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
@@ -124,13 +115,6 @@
         <a class="nav-link" href="staff.html" onclick="toggleMobileMenu()">STAFF</a>
     </div>
 
-    <div class="theme-toggle">
-        <div class="theme-btn" data-theme="dark" onclick="setTheme('dark')" title="Dark"></div>
-        <div class="theme-btn" data-theme="grass" onclick="setTheme('grass')" title="Grass"></div>
-        <div class="theme-btn" data-theme="dirt" onclick="setTheme('dirt')" title="Dirt"></div>
-        <div class="theme-btn" data-theme="nether" onclick="setTheme('nether')" title="Nether"></div>
-        <div class="theme-btn" data-theme="end" onclick="setTheme('end')" title="End"></div>
-    </div>
 
     <div class="container">
         <h1 class="page-title">STAFF TEAM</h1>
@@ -141,7 +125,7 @@
 
     <script>
         const staff = [
-            {name:"Sahal Pro",avatar:"https://i.postimg.cc/kgfLMZX7/SAHAL-PRO.png",deco:"https://cdn.discordapp.com/avatar-decoration-presets/a_1005898c6acf56a9ac5010baf444f6fd.png",effect:"https://cdn.discordapp.com/assets/content/bec17fc4cb484d1f557c66aec2f0573fb07a5bb7988e1bbec797f583e7db14c5",song:"https://files.catbox.moe/d8w234.mp3",role:"Co-Owner",hide:true},
+            {name:"Sahal Pro",avatar:"https://i.postimg.cc/kgfLMZX7/SAHAL-PRO.png",deco:"https://cdn.discordapp.com/avatar-decoration-presets/a_1005898c6acf56a9ac5010baf444f6fd.png",effect:"https://cdn.discordapp.com/assets/content/bec17fc4cb484d1f557c66aec2f0573fb07a5bb7988e1bbec797f583e7db14c5",song:"https://files.catbox.moe/d8w234.mp3",role:"Co-Owner",hide:false},
             {name:"Nep Breezy",avatar:"https://i.postimg.cc/XJ7MkbH0/NEP.png",deco:"https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png",effect:"",song:"https://files.catbox.moe/abc123.mp3",role:"Developer",hide:false},
             {name:"Gif TV",avatar:"https://i.postimg.cc/SxXHsRBF/GIF.png",deco:"https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png",effect:"",song:"",role:"Manager",hide:false},
             {name:"Blazecore",avatar:"https://i.postimg.cc/QMZh5vZK/ZORO.png",deco:"",effect:"",song:"",role:"Admin",hide:false},
@@ -281,15 +265,6 @@
             document.getElementById('mobile-menu').classList.toggle('show');
         }
 
-        function setTheme(theme) {
-            document.body.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-        }
-
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            document.body.setAttribute('data-theme', savedTheme);
-        }
     </script>
 </body>
 </html>
