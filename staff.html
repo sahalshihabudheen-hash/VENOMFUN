@@ -42,60 +42,120 @@
 
         /* Navbar */
         .navbar {
-            background: rgba(20, 20, 20, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 100%);
+            border-bottom: 4px solid #000;
+            border-top: 2px solid #555;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 3px solid #00ff00;
-            box-shadow: 0 4px 20px rgba(0, 255, 0, 0.3);
-            position: sticky;
-            top: 0;
             z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
         }
 
-        .navbar-brand {
+        .nav-logo {
+            color: #ffed4e;
             font-size: 1.2rem;
-            color: #00ff00;
-            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+            text-shadow: 3px 3px 0 #000, 4px 4px 0 #3f3f00;
+            font-weight: bold;
             letter-spacing: 2px;
         }
 
-        .navbar-links {
+        .nav-links {
             display: flex;
             gap: 2rem;
-            list-style: none;
         }
 
-        .navbar-links a {
+        .nav-link {
             color: #fff;
             text-decoration: none;
-            font-size: 0.8rem;
-            transition: all 0.3s;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-shadow: 2px 2px 0 #000;
             padding: 0.5rem 1rem;
-            border: 2px solid transparent;
+            background: #5a5a5a;
+            border: 2px solid #000;
+            border-top: 2px solid #8a8a8a;
+            border-left: 2px solid #8a8a8a;
+            transition: all 0.1s;
         }
 
-        .navbar-links a:hover {
-            color: #00ff00;
-            text-shadow: 0 0 10px #00ff00;
-            border: 2px solid #00ff00;
-            background: rgba(0, 255, 0, 0.1);
+        .nav-link:hover {
+            background: #7a7a7a;
+            transform: translate(1px, 1px);
+            border-top: 2px solid #5a5a5a;
+            border-left: 2px solid #5a5a5a;
+        }
+
+        .nav-link:active {
+            background: #4a4a4a;
+            transform: translate(2px, 2px);
         }
 
         .hamburger {
             display: none;
             flex-direction: column;
-            gap: 4px;
+            gap: 5px;
             cursor: pointer;
         }
 
         .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: #00ff00;
-            box-shadow: 0 0 10px #00ff00;
+            width: 30px;
+            height: 4px;
+            background-color: #ffed4e;
+            box-shadow: 2px 2px 0 #000;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            right: 10px;
+            background: #2d2d2d;
+            border: 4px solid #000;
+            padding: 1.5rem;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 999;
+            box-shadow: 4px 4px 0 #000;
+        }
+
+        .mobile-menu.show {
+            display: flex;
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        #loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #loading-video {
+            max-width: 90%;
+            max-height: 90%;
+            width: auto;
+            height: auto;
+            border: 4px solid #ffed4e;
+            box-shadow: 0 0 20px rgba(255, 237, 78, 0.5);
         }
 
         /* Main Content */
@@ -103,6 +163,7 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 3rem 2rem;
+            padding-top: 120px;
             min-height: calc(100vh - 200px);
         }
 
@@ -292,47 +353,25 @@
 
         /* Footer */
         .footer {
-            background: rgba(20, 20, 20, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
+            background: #1a1a1a;
+            border-top: 4px solid #000;
+            padding: 1.5rem;
             text-align: center;
-            border-top: 3px solid #00ff00;
-            box-shadow: 0 -4px 20px rgba(0, 255, 0, 0.3);
-            font-size: 0.7rem;
-            color: #00ff00;
-            text-shadow: 0 0 10px #00ff00;
+            margin-top: 4rem;
+            font-size: 0.9rem;
+            color: #ffed4e;
+            text-shadow: 2px 2px 0 #000;
+            letter-spacing: 1px;
         }
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            .navbar-brand {
+            .nav-logo {
                 font-size: 0.8rem;
             }
 
-            .navbar-links {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: rgba(20, 20, 20, 0.95);
-                flex-direction: column;
-                gap: 0;
-                padding: 1rem;
-                transform: translateY(-100%);
-                opacity: 0;
-                pointer-events: none;
-                transition: all 0.3s;
-            }
-
-            .navbar-links.active {
-                transform: translateY(0);
-                opacity: 1;
-                pointer-events: all;
-            }
-
-            .navbar-links a {
-                padding: 1rem;
-                border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+            .nav-links {
+                display: none;
             }
 
             .hamburger {
@@ -345,6 +384,18 @@
 
             .staff-grid {
                 grid-template-columns: 1fr;
+            }
+
+            #loading-video {
+                max-width: 80%;
+                max-height: 80%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #loading-video {
+                max-width: 70%;
+                max-height: 70%;
             }
         }
 
@@ -406,6 +457,13 @@
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <video id="loading-video" autoplay muted playsinline>
+            <source src="https://files.catbox.moe/oxz09v.mp4" type="video/mp4">
+        </video>
+    </div>
+
     <!-- Background Video -->
     <video class="bg-video" autoplay muted loop playsinline>
         <source src="https://files.catbox.moe/a3fhgr.mp4" type="video/mp4">
@@ -417,26 +475,23 @@
         <source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Audio Control Popup -->
-    <div class="audio-control" id="audioControl">
-        <h2>Click to Start Music</h2>
-        <button onclick="startMusic()">ENTER</button>
-    </div>
-
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="navbar-brand">VENOMFUM STAFF TEAM</div>
-        <ul class="navbar-links" id="navLinks">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#staff">Staff</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="hamburger" onclick="toggleMenu()">
+        <div class="nav-logo">⛏ VENOM FUN ⛏</div>
+        <div class="nav-links">
+            <a class="nav-link" href="index.html">HOME</a>
+            <a class="nav-link" href="staff.html">STAFF</a>
+        </div>
+        <div class="hamburger" onclick="toggleMobileMenu()">
             <span></span>
             <span></span>
             <span></span>
         </div>
     </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <a class="nav-link" href="index.html" onclick="toggleMobileMenu()">HOME</a>
+        <a class="nav-link" href="staff.html" onclick="toggleMobileMenu()">STAFF</a>
+    </div>
 
     <!-- Main Content -->
     <div class="container">
@@ -528,44 +583,54 @@
 
     <!-- Footer -->
     <footer class="footer">
-        © 2025 VENOMFUM — Staff Team
+        Powered by JARVIS
     </footer>
 
     <script>
-        // Audio Control
-        function startMusic() {
-            const audio = document.getElementById('bgMusic');
-            const audioControl = document.getElementById('audioControl');
-            audio.play();
-            audioControl.classList.add('hidden');
+        // Background Music
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.volume = 0.2;
+        bgMusic.play().catch(() => {});
+
+        // Loading Screen
+        const loadingScreen = document.getElementById('loading-screen');
+        const loadingVideo = document.getElementById('loading-video');
+
+        // Check if loading screen has been shown in this session
+        if (sessionStorage.getItem('loadingShown')) {
+            loadingScreen.style.display = 'none';
+        } else {
+            loadingVideo.addEventListener('ended', () => {
+                loadingScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    sessionStorage.setItem('loadingShown', 'true');
+                }, 500);
+            });
+
+            setTimeout(() => {
+                loadingScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    sessionStorage.setItem('loadingShown', 'true');
+                }, 500);
+            }, 5000);
         }
 
         // Mobile Menu Toggle
-        function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('show');
         }
 
         // Reveal Sahal Pro Card
         function revealSahal() {
             const sahalCard = document.getElementById('sahalCard');
             const secretBtn = document.getElementById('secretBtn');
-            
+
             sahalCard.classList.remove('hidden');
             sahalCard.classList.add('revealed');
             secretBtn.classList.add('hidden');
         }
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const navLinks = document.getElementById('navLinks');
-            const hamburger = document.querySelector('.hamburger');
-            const navbar = document.querySelector('.navbar');
-            
-            if (!navbar.contains(event.target)) {
-                navLinks.classList.remove('active');
-            }
-        });
     </script>
 </body>
 </html>
