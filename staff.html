@@ -3,479 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VENOMFUM - Staff Team</title>
+    <title>VENOM FUN - Staff Team</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * {margin:0;padding:0;box-sizing:border-box;}
+        body {font-family:'Press Start 2P',cursive;overflow-x:hidden;background:#000;color:#fff;transition:background 0.5s ease;}
 
-        body {
-            font-family: 'Press Start+2P', cursive;
-            overflow-x: hidden;
-            background: #000;
-            color: #fff;
-        }
+        /* Theme Variables */
+        body[data-theme="dark"] {--bg-primary:#000;--bg-secondary:#1a1a1a;--accent:#00ff00;--accent-glow:rgba(0,255,0,0.5);}
+        body[data-theme="grass"],body:not([data-theme]) {--bg-primary:#1a3d1a;--bg-secondary:rgba(30,60,30,0.6);--accent:#55ff55;--accent-glow:rgba(85,255,85,0.5);}
+        body[data-theme="dirt"] {--bg-primary:#3d2a1a;--bg-secondary:rgba(60,42,26,0.6);--accent:#cd853f;--accent-glow:rgba(205,133,63,0.5);}
+        body[data-theme="nether"] {--bg-primary:#3d0a0a;--bg-secondary:rgba(60,10,10,0.6);--accent:#ff5555;--accent-glow:rgba(255,85,85,0.5);}
+        body[data-theme="end"] {--bg-primary:#1a1a3d;--bg-secondary:rgba(26,26,60,0.6);--accent:#d946ef;--accent-glow:rgba(217,70,239,0.5);}
 
-        /* Background Video */
-        .bg-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
-        }
+        .bg-video {position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-2;}
+        .bg-overlay {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:-1;}
 
-        .bg-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: -1;
-        }
+        .navbar {position:fixed;top:0;left:0;right:0;background:linear-gradient(180deg,#2d2d2d 0%,#1a1a1a 100%);border-bottom:4px solid #000;border-top:2px solid #555;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;z-index:1000;box-shadow:0 4px 8px rgba(0,0,0,0.5);}
+        .nav-logo {color:var(--accent);font-size:1.2rem;text-shadow:3px 3px 0 #000;font-weight:bold;letter-spacing:2px;}
+        .nav-links {display:flex;gap:2rem;}
+        .nav-link {color:#fff;text-decoration:none;font-size:0.9rem;cursor:pointer;text-shadow:2px 2px 0 #000;padding:0.5rem 1rem;background:#5a5a5a;border:2px solid #000;border-top:2px solid #8a8a8a;border-left:2px solid #8a8a8a;transition:all 0.1s;}
+        .nav-link:hover {background:#7a7a7a;transform:translate(1px,1px);border-top:2px solid #5a5a5a;border-left:2px solid #5a5a5a;}
+        .nav-link:active {background:#4a4a4a;transform:translate(2px,2px);}
+        .hamburger {display:none;flex-direction:column;gap:5px;cursor:pointer;}
+        .hamburger span {width:30px;height:4px;background-color:var(--accent);box-shadow:2px 2px 0 #000;transition:all 0.3s;}
+        .mobile-menu {display:none;position:fixed;top:80px;right:10px;background:#2d2d2d;border:4px solid #000;padding:1.5rem;flex-direction:column;gap:1rem;z-index:999;box-shadow:4px 4px 0 #000;}
+        .mobile-menu.show {display:flex;}
 
-        /* Navbar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 100%);
-            border-bottom: 4px solid #000;
-            border-top: 2px solid #555;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-        }
+        /* Theme Toggle */
+        .theme-toggle {position:fixed;bottom:20px;left:20px;z-index:100;display:flex;gap:0.5rem;flex-wrap:wrap;max-width:200px;}
+        .theme-btn {width:35px;height:35px;border:3px solid #000;cursor:pointer;transition:all 0.2s;box-shadow:2px 2px 0 #000;}
+        .theme-btn:hover {transform:scale(1.1);box-shadow:3px 3px 0 #000;}
+        .theme-btn[data-theme="dark"] {background:#1a1a1a;}
+        .theme-btn[data-theme="grass"] {background:#55ff55;}
+        .theme-btn[data-theme="dirt"] {background:#cd853f;}
+        .theme-btn[data-theme="nether"] {background:#ff5555;}
+        .theme-btn[data-theme="end"] {background:#d946ef;}
 
-        .nav-logo {
-            color: #ffed4e;
-            font-size: 1.2rem;
-            text-shadow: 3px 3px 0 #000, 4px 4px 0 #3f3f00;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
+        /* Audio Control Overlay */
+        .audio-prompt {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:10000;display:flex;justify-content:center;align-items:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+        .audio-prompt.show {opacity:1;pointer-events:all;}
+        .audio-prompt-content {background:var(--bg-secondary);border:4px solid var(--accent);padding:3rem;text-align:center;box-shadow:0 0 40px var(--accent-glow);}
+        .audio-prompt h2 {color:var(--accent);font-size:1rem;margin-bottom:2rem;text-shadow:2px 2px 0 #000;}
+        .audio-prompt button {font-family:'Press Start 2P',cursive;padding:1rem 2rem;font-size:0.7rem;background:var(--accent);color:#000;border:3px solid #000;cursor:pointer;font-weight:bold;transition:all 0.2s;}
+        .audio-prompt button:hover {transform:scale(1.05);box-shadow:4px 4px 0 #000;}
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
+        #loading-screen {position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;justify-content:center;align-items:center;z-index:9999;transition:opacity 0.5s ease-out;}
+        #loading-screen.fade-out {opacity:0;pointer-events:none;}
+        #loading-video {max-width:90%;max-height:90%;width:auto;height:auto;border:4px solid var(--accent);box-shadow:0 0 20px var(--accent-glow);}
 
-        .nav-link {
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.9rem;
-            cursor: pointer;
-            text-shadow: 2px 2px 0 #000;
-            padding: 0.5rem 1rem;
-            background: #5a5a5a;
-            border: 2px solid #000;
-            border-top: 2px solid #8a8a8a;
-            border-left: 2px solid #8a8a8a;
-            transition: all 0.1s;
-        }
+        .container {max-width:1400px;margin:0 auto;padding:3rem 2rem;padding-top:120px;min-height:calc(100vh - 200px);}
+        .page-title {text-align:center;font-size:2rem;color:var(--accent);text-shadow:0 0 20px var(--accent-glow);margin-bottom:3rem;letter-spacing:3px;animation:glow 2s ease-in-out infinite;}
+        @keyframes glow {0%,100%{text-shadow:0 0 20px var(--accent-glow);}50%{text-shadow:0 0 30px var(--accent-glow),0 0 60px var(--accent-glow);}}
 
-        .nav-link:hover {
-            background: #7a7a7a;
-            transform: translate(1px, 1px);
-            border-top: 2px solid #5a5a5a;
-            border-left: 2px solid #5a5a5a;
-        }
+        .staff-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-bottom:3rem;}
+        .staff-card {background:var(--bg-secondary);backdrop-filter:blur(10px);border:3px solid var(--accent);border-radius:8px;padding:2rem;text-align:center;transition:all 0.3s;box-shadow:0 4px 20px var(--accent-glow);animation:float 3s ease-in-out infinite;position:relative;overflow:hidden;}
+        .staff-card::before {content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,0.03) 10px,rgba(255,255,255,0.03) 20px);pointer-events:none;}
+        .staff-card:hover {transform:translateY(-10px) scale(1.05);box-shadow:0 8px 40px var(--accent-glow);}
+        @keyframes float {0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+        .staff-card:nth-child(2){animation-delay:0.5s;}.staff-card:nth-child(3){animation-delay:1s;}.staff-card:nth-child(4){animation-delay:1.5s;}.staff-card:nth-child(5){animation-delay:2s;}.staff-card:nth-child(6){animation-delay:2.5s;}.staff-card:nth-child(7){animation-delay:3s;}.staff-card:nth-child(8){animation-delay:3.5s;}
 
-        .nav-link:active {
-            background: #4a4a4a;
-            transform: translate(2px, 2px);
-        }
+        .avatar-container {position:relative;width:120px;height:120px;margin:0 auto 1.5rem;}
+        .avatar {width:100%;height:100%;border-radius:50%;border:3px solid var(--accent);box-shadow:0 0 20px var(--accent-glow);position:relative;z-index:2;object-fit:cover;}
+        .avatar-decoration {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:140px;height:140px;z-index:3;pointer-events:none;object-fit:contain;}
+        .profile-effect {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:180px;height:180px;z-index:1;opacity:0.8;filter:drop-shadow(0 0 30px var(--accent));animation:rotate 20s linear infinite;object-fit:contain;}
+        @keyframes rotate {from{transform:translate(-50%,-50%) rotate(0deg);}to{transform:translate(-50%,-50%) rotate(360deg);}}
 
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-        }
+        .staff-name {font-size:0.9rem;color:#fff;margin-bottom:0.5rem;text-shadow:0 0 10px rgba(255,255,255,0.5);}
+        .staff-role {font-size:0.7rem;color:var(--accent);text-shadow:0 0 10px var(--accent-glow);margin-bottom:1rem;}
 
-        .hamburger span {
-            width: 30px;
-            height: 4px;
-            background-color: #ffed4e;
-            box-shadow: 2px 2px 0 #000;
-            transition: all 0.3s;
-        }
+        .music-player {margin-top:1rem;padding:0.8rem;background:rgba(0,0,0,0.5);border:2px solid var(--accent);border-radius:4px;}
+        .music-btn {font-family:'Press Start 2P',cursive;font-size:0.5rem;padding:0.5rem 1rem;background:var(--accent);color:#000;border:2px solid #000;cursor:pointer;transition:all 0.2s;margin:0 0.3rem;}
+        .music-btn:hover {transform:scale(1.05);box-shadow:2px 2px 0 #000;}
+        .music-btn.playing {background:#ff5555;animation:pulse 1s infinite;}
+        @keyframes pulse {0%,100%{opacity:1;}50%{opacity:0.7;}}
 
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 80px;
-            right: 10px;
-            background: #2d2d2d;
-            border: 4px solid #000;
-            padding: 1.5rem;
-            flex-direction: column;
-            gap: 1rem;
-            z-index: 999;
-            box-shadow: 4px 4px 0 #000;
-        }
+        .footer {background:#1a1a1a;border-top:4px solid #000;padding:1.5rem;text-align:center;margin-top:4rem;font-size:0.7rem;color:var(--accent);text-shadow:2px 2px 0 #000;letter-spacing:1px;}
 
-        .mobile-menu.show {
-            display: flex;
-        }
-
-        /* Loading Screen */
-        #loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease-out;
-        }
-
-        #loading-screen.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        #loading-video {
-            max-width: 90%;
-            max-height: 90%;
-            width: auto;
-            height: auto;
-            border: 4px solid #ffed4e;
-            box-shadow: 0 0 20px rgba(255, 237, 78, 0.5);
-        }
-
-        /* Main Content */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            padding-top: 120px;
-            min-height: calc(100vh - 200px);
-        }
-
-        .page-title {
-            text-align: center;
-            font-size: 2rem;
-            color: #00ff00;
-            text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
-            margin-bottom: 3rem;
-            letter-spacing: 3px;
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; }
-            50% { text-shadow: 0 0 30px #00ff00, 0 0 60px #00ff00, 0 0 80px #00ff00; }
-        }
-
-        /* Staff Grid */
-        .staff-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .staff-card {
-            background: rgba(30, 30, 30, 0.6);
-            backdrop-filter: blur(10px);
-            border: 3px solid #00ff00;
-            border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(0, 255, 0, 0.2);
-            animation: float 3s ease-in-out infinite;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .staff-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(0, 255, 0, 0.03) 10px,
-                rgba(0, 255, 0, 0.03) 20px
-            );
-            pointer-events: none;
-        }
-
-        .staff-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 8px 40px rgba(0, 255, 0, 0.5);
-            border-color: #00ff00;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .staff-card:nth-child(2) { animation-delay: 0.5s; }
-        .staff-card:nth-child(3) { animation-delay: 1s; }
-        .staff-card:nth-child(4) { animation-delay: 1.5s; }
-        .staff-card:nth-child(5) { animation-delay: 2s; }
-        .staff-card:nth-child(6) { animation-delay: 2.5s; }
-        .staff-card:nth-child(7) { animation-delay: 3s; }
-        .staff-card:nth-child(8) { animation-delay: 3.5s; }
-
-        .avatar-container {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 1.5rem;
-        }
-
-        .avatar {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 3px solid #00ff00;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
-            position: relative;
-            z-index: 2;
-        }
-
-        .avatar-decoration {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 140px;
-            height: 140px;
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        .profile-effect {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 180px;
-            height: 180px;
-            z-index: 1;
-            opacity: 0.8;
-            filter: drop-shadow(0 0 30px #00ff00);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        .staff-name {
-            font-size: 1rem;
-            color: #fff;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-
-        .staff-role {
-            font-size: 0.7rem;
-            color: #00ff00;
-            text-shadow: 0 0 10px #00ff00;
-        }
-
-        /* Hidden Card */
-        .staff-card.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(0.8);
-        }
-
-        .staff-card.revealed {
-            animation: revealCard 0.8s ease-out forwards;
-        }
-
-        @keyframes revealCard {
-            0% {
-                opacity: 0;
-                transform: scale(0.8) rotateY(180deg);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) rotateY(0deg);
-            }
-        }
-
-        /* Secret Button */
-        .secret-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: rgba(0, 255, 0, 0.2);
-            border: 2px solid #00ff00;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .secret-button:hover {
-            background: rgba(0, 255, 0, 0.4);
-            box-shadow: 0 0 40px rgba(0, 255, 0, 0.6);
-            transform: scale(1.1);
-        }
-
-        .secret-button.hidden {
-            display: none;
-        }
-
-        /* Footer */
-        .footer {
-            background: #1a1a1a;
-            border-top: 4px solid #000;
-            padding: 1.5rem;
-            text-align: center;
-            margin-top: 4rem;
-            font-size: 0.9rem;
-            color: #ffed4e;
-            text-shadow: 2px 2px 0 #000;
-            letter-spacing: 1px;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .nav-logo {
-                font-size: 0.8rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .page-title {
-                font-size: 1.2rem;
-            }
-
-            .staff-grid {
-                grid-template-columns: 1fr;
-            }
-
-            #loading-video {
-                max-width: 80%;
-                max-height: 80%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #loading-video {
-                max-width: 70%;
-                max-height: 70%;
-            }
-        }
-
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .staff-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (min-width: 1025px) {
-            .staff-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        /* Audio Control */
-        .audio-control {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
-            padding: 3rem;
-            border: 3px solid #00ff00;
-            border-radius: 8px;
-            text-align: center;
-            z-index: 9999;
-            box-shadow: 0 0 40px rgba(0, 255, 0, 0.5);
-        }
-
-        .audio-control.hidden {
-            display: none;
-        }
-
-        .audio-control h2 {
-            font-size: 1rem;
-            margin-bottom: 2rem;
-            color: #00ff00;
-        }
-
-        .audio-control button {
-            background: #00ff00;
-            color: #000;
-            border: none;
-            padding: 1rem 2rem;
-            font-family: 'Press Start+2P', cursive;
-            font-size: 0.8rem;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4);
-        }
-
-        .audio-control button:hover {
-            background: #00cc00;
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(0, 255, 0, 0.6);
-        }
+        @media(max-width:768px){.nav-logo{font-size:0.8rem;}.nav-links{display:none;}.hamburger{display:flex;}.page-title{font-size:1.2rem;}.staff-grid{grid-template-columns:1fr;}#loading-video{max-width:80%;max-height:80%;}.theme-toggle{max-width:150px;}}
+        @media(max-width:480px){#loading-video{max-width:70%;max-height:70%;}}
+        @media(min-width:769px) and (max-width:1024px){.staff-grid{grid-template-columns:repeat(2,1fr);}}
+        @media(min-width:1025px){.staff-grid{grid-template-columns:repeat(4,1fr);}}
     </style>
 </head>
-<body>
-    <!-- Loading Screen -->
+<body data-theme="grass">
     <div id="loading-screen">
         <video id="loading-video" autoplay muted playsinline>
             <source src="https://files.catbox.moe/oxz09v.mp4" type="video/mp4">
         </video>
     </div>
 
-    <!-- Background Video -->
+    <div class="audio-prompt" id="audioPrompt">
+        <div class="audio-prompt-content">
+            <h2>🎵 Enable Music? 🎵</h2>
+            <button onclick="enableBgMusic()">PLAY MUSIC</button>
+        </div>
+    </div>
+
     <video class="bg-video" autoplay muted loop playsinline>
         <source src="https://files.catbox.moe/a3fhgr.mp4" type="video/mp4">
     </video>
     <div class="bg-overlay"></div>
 
-    <!-- Background Music -->
     <audio id="bgMusic" loop>
         <source src="https://files.catbox.moe/yir7i1.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-logo">⛏ VENOM FUN ⛏</div>
         <div class="nav-links">
@@ -483,9 +116,7 @@
             <a class="nav-link" href="staff.html">STAFF</a>
         </div>
         <div class="hamburger" onclick="toggleMobileMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span></span><span></span><span></span>
         </div>
     </nav>
     <div class="mobile-menu" id="mobile-menu">
@@ -493,110 +124,139 @@
         <a class="nav-link" href="staff.html" onclick="toggleMobileMenu()">STAFF</a>
     </div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <h1 class="page-title">STAFF TEAM</h1>
-        
-        <div class="staff-grid" id="staffGrid">
-            <!-- Gif TV - Manager -->
-            <div class="staff-card">
-                <div class="avatar-container">
-                    <img src="https://i.postimg.cc/SxXHsRBF/GIF.png" alt="Gif TV" class="avatar">
-                    <img src="https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png" alt="decoration" class="avatar-decoration">
-                </div>
-                <div class="staff-name">Gif TV</div>
-                <div class="staff-role">Manager</div>
-            </div>
-
-            <!-- Nep Breezy - Developer -->
-            <div class="staff-card">
-                <div class="avatar-container">
-                    <img src="https://i.postimg.cc/XJ7MkbH0/NEP.png" alt="Nep Breezy" class="avatar">
-                    <img src="https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png" alt="decoration" class="avatar-decoration">
-                </div>
-                <div class="staff-name">Nep Breezy</div>
-                <div class="staff-role">Developer</div>
-            </div>
-
-            <!-- Blazecore - Admin -->
-            <div class="staff-card">
-                <div class="avatar-container">
-                    <img src="https://i.postimg.cc/QMZh5vZK/ZORO.png" alt="Blazecore" class="avatar">
-                </div>
-                <div class="staff-name">Blazecore</div>
-                <div class="staff-role">Admin</div>
-            </div>
-
-            <!-- Gorkhali Warrior - Admin -->
-            <div class="staff-card">
-                <div class="avatar-container">
-                    <img src="https://i.postimg.cc/MTxZkN94/gorkhali.png" alt="Gorkhali Warrior" class="avatar">
-                    <img src="https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png" alt="decoration" class="avatar-decoration">
-                </div>
-                <div class="staff-name">Gorkhali Warrior</div>
-                <div class="staff-role">Admin</div>
-            </div>
-
-            <!-- Trident - Admin -->
-            <div class="staff-card">
-                <div class="avatar-container">
-                    <img src="https://i.postimg.cc/6Qcg3P9F/Tr1dent.png" alt="Trident" class="avatar">
-                </div>
-                <div class="staff-name">Trident</div>
-                <div class="staff-role">Admin</div>
-            </div>
-
-            <!-- Sahal Pro - Co Owner (HIDDEN) -->
-            <div class="staff-card hidden" id="sahalCard">
-                <div class="avatar-container">
-                    <img src="https://cdn.discordapp.com/assets/content/bec17fc4cb484d1f557c66aec2f0573fb07a5bb7988e1bbec797f583e7db14c5" alt="effect" class="profile-effect">
-                    <img src="https://i.postimg.cc/kgfLMZX7/SAHAL-PRO.png" alt="Sahal Pro" class="avatar">
-                    <img src="https://cdn.discordapp.com/avatar-decoration-presets/a_1005898c6acf56a9ac5010baf444f6fd.png" alt="decoration" class="avatar-decoration">
-                </div>
-                <div class="staff-name">Sahal Pro</div>
-                <div class="staff-role">Co Owner</div>
-            </div>
-
-            <!-- LKT Gaming - Co Owner -->
-            <div class="staff-card">
-                <div class="avatar-container">
-                    <img src="https://i.postimg.cc/sDprzwh1/LKT.png" alt="LKT Gaming" class="avatar">
-                </div>
-                <div class="staff-name">LKT Gaming</div>
-                <div class="staff-role">Co Owner</div>
-            </div>
-
-            <!-- PratikPlayz - Owner -->
-            <div class="staff-card">
-                <div class="avatar-container">
-                    <img src="https://i.postimg.cc/5Nvx0fDh/pratik.png" alt="PratikPlayz" class="avatar">
-                    <img src="https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png" alt="decoration" class="avatar-decoration">
-                </div>
-                <div class="staff-name">PratikPlayz</div>
-                <div class="staff-role">Owner</div>
-            </div>
-        </div>
+    <div class="theme-toggle">
+        <div class="theme-btn" data-theme="dark" onclick="setTheme('dark')" title="Dark"></div>
+        <div class="theme-btn" data-theme="grass" onclick="setTheme('grass')" title="Grass"></div>
+        <div class="theme-btn" data-theme="dirt" onclick="setTheme('dirt')" title="Dirt"></div>
+        <div class="theme-btn" data-theme="nether" onclick="setTheme('nether')" title="Nether"></div>
+        <div class="theme-btn" data-theme="end" onclick="setTheme('end')" title="End"></div>
     </div>
 
-    <!-- Secret Button -->
-    <button class="secret-button" id="secretBtn" onclick="revealSahal()">?</button>
+    <div class="container">
+        <h1 class="page-title">STAFF TEAM</h1>
+        <div class="staff-grid" id="staffGrid"></div>
+    </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        Powered by JARVIS
-    </footer>
+    <footer class="footer">Powered by JARVIS</footer>
 
     <script>
-        // Background Music
-        const bgMusic = document.getElementById('bgMusic');
-        bgMusic.volume = 0.2;
-        bgMusic.play().catch(() => {});
+        const staff = [
+            {name:"Sahal Pro",avatar:"https://i.postimg.cc/kgfLMZX7/SAHAL-PRO.png",deco:"https://cdn.discordapp.com/avatar-decoration-presets/a_1005898c6acf56a9ac5010baf444f6fd.png",effect:"https://cdn.discordapp.com/assets/content/bec17fc4cb484d1f557c66aec2f0573fb07a5bb7988e1bbec797f583e7db14c5",song:"https://files.catbox.moe/d8w234.mp3",role:"Co-Owner",hide:true},
+            {name:"Nep Breezy",avatar:"https://i.postimg.cc/XJ7MkbH0/NEP.png",deco:"https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png",effect:"",song:"https://files.catbox.moe/abc123.mp3",role:"Developer",hide:false},
+            {name:"Gif TV",avatar:"https://i.postimg.cc/SxXHsRBF/GIF.png",deco:"https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png",effect:"",song:"",role:"Manager",hide:false},
+            {name:"Blazecore",avatar:"https://i.postimg.cc/QMZh5vZK/ZORO.png",deco:"",effect:"",song:"",role:"Admin",hide:false},
+            {name:"Gorkhali Warrior",avatar:"https://i.postimg.cc/MTxZkN94/gorkhali.png",deco:"https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png",effect:"",song:"",role:"Admin",hide:false},
+            {name:"Trident",avatar:"https://i.postimg.cc/6Qcg3P9F/Tr1dent.png",deco:"",effect:"",song:"",role:"Admin",hide:false},
+            {name:"LKT Gaming",avatar:"https://i.postimg.cc/sDprzwh1/LKT.png",deco:"",effect:"",song:"",role:"Co-Owner",hide:false},
+            {name:"PratikPlayz",avatar:"https://i.postimg.cc/5Nvx0fDh/pratik.png",deco:"https://cdn.discordapp.com/avatar-decoration-presets/a_1bb935d2475c15b79d48a27deb060b70.png",effect:"",song:"",role:"Owner",hide:false}
+        ];
 
-        // Loading Screen
+        const bgMusic = document.getElementById('bgMusic');
+        const audioPrompt = document.getElementById('audioPrompt');
         const loadingScreen = document.getElementById('loading-screen');
         const loadingVideo = document.getElementById('loading-video');
+        const staffGrid = document.getElementById('staffGrid');
+        
+        bgMusic.volume = 0.2;
+        let bgMusicEnabled = false;
+        let userInteracted = false;
+        let staffAudios = {};
 
-        // Check if loading screen has been shown in this session
+        // Render staff cards
+        staff.forEach((member, index) => {
+            if (member.hide) return;
+
+            const card = document.createElement('div');
+            card.className = 'staff-card';
+            
+            let html = `
+                <div class="avatar-container">
+                    ${member.effect ? `<img src="${member.effect}" alt="effect" class="profile-effect">` : ''}
+                    <img src="${member.avatar}" alt="${member.name}" class="avatar">
+                    ${member.deco ? `<img src="${member.deco}" alt="decoration" class="avatar-decoration">` : ''}
+                </div>
+                <div class="staff-name">${member.name}</div>
+                <div class="staff-role">${member.role}</div>
+            `;
+
+            if (member.song) {
+                const audioId = `audio-${index}`;
+                const btnId = `btn-${index}`;
+                html += `
+                    <div class="music-player">
+                        <button class="music-btn" id="${btnId}" onclick="toggleStaffMusic('${audioId}', '${btnId}')">▶ PLAY</button>
+                    </div>
+                    <audio id="${audioId}" loop>
+                        <source src="${member.song}" type="audio/mpeg">
+                    </audio>
+                `;
+            }
+
+            card.innerHTML = html;
+            staffGrid.appendChild(card);
+
+            if (member.song) {
+                const audioId = `audio-${index}`;
+                staffAudios[audioId] = {audio: document.getElementById(audioId), playing: false};
+                if (staffAudios[audioId].audio) {
+                    staffAudios[audioId].audio.volume = 0.3;
+                }
+            }
+        });
+
+        // Background music
+        bgMusic.play().then(() => {
+            bgMusicEnabled = true;
+        }).catch(() => {
+            setTimeout(() => {
+                if (!userInteracted && !sessionStorage.getItem('loadingShown')) {
+                    audioPrompt.classList.add('show');
+                }
+            }, 5500);
+        });
+
+        function enableBgMusic() {
+            bgMusic.play().then(() => {
+                bgMusicEnabled = true;
+                userInteracted = true;
+                audioPrompt.classList.remove('show');
+            });
+        }
+
+        document.addEventListener('click', () => {
+            if (!bgMusicEnabled) {
+                bgMusic.play().then(() => {
+                    bgMusicEnabled = true;
+                    userInteracted = true;
+                    audioPrompt.classList.remove('show');
+                }).catch(() => {});
+            }
+        }, { once: true });
+
+        // Staff music toggle
+        function toggleStaffMusic(audioId, btnId) {
+            const audioData = staffAudios[audioId];
+            const btn = document.getElementById(btnId);
+            
+            if (!audioData || !audioData.audio) return;
+
+            if (audioData.playing) {
+                audioData.audio.pause();
+                audioData.playing = false;
+                btn.textContent = '▶ PLAY';
+                btn.classList.remove('playing');
+            } else {
+                audioData.audio.play().then(() => {
+                    audioData.playing = true;
+                    btn.textContent = '⏸ PAUSE';
+                    btn.classList.add('playing');
+                }).catch(() => {
+                    alert('Click to enable audio first!');
+                });
+            }
+        }
+
+        // Loading screen
         if (sessionStorage.getItem('loadingShown')) {
             loadingScreen.style.display = 'none';
         } else {
@@ -617,19 +277,18 @@
             }, 5000);
         }
 
-        // Mobile Menu Toggle
         function toggleMobileMenu() {
             document.getElementById('mobile-menu').classList.toggle('show');
         }
 
-        // Reveal Sahal Pro Card
-        function revealSahal() {
-            const sahalCard = document.getElementById('sahalCard');
-            const secretBtn = document.getElementById('secretBtn');
+        function setTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        }
 
-            sahalCard.classList.remove('hidden');
-            sahalCard.classList.add('revealed');
-            secretBtn.classList.add('hidden');
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.setAttribute('data-theme', savedTheme);
         }
     </script>
 </body>
