@@ -49,7 +49,7 @@
         .avatar-container {position:relative;width:120px;height:120px;margin:0 auto 1.5rem;}
         .avatar {width:100%;height:100%;border-radius:50%;border:3px solid #55ff55;box-shadow:0 0 20px rgba(85,255,85,0.5);position:relative;z-index:2;object-fit:cover;}
         .avatar-decoration {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:140px;height:140px;z-index:3;pointer-events:none;object-fit:contain;}
-        .profile-effect {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:180px;height:180px;z-index:1;opacity:0.8;filter:drop-shadow(0 0 30px #55ff55);animation:rotate 20s linear infinite;object-fit:contain;}
+        .profile-effect {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;z-index:0;opacity:0.3;filter:drop-shadow(0 0 30px #55ff55);object-fit:contain;pointer-events:none;}
         @keyframes rotate {from{transform:translate(-50%,-50%) rotate(0deg);}to{transform:translate(-50%,-50%) rotate(360deg);}}
 
         .staff-name {font-size:0.9rem;color:#fff;margin-bottom:0.5rem;text-shadow:0 0 10px rgba(255,255,255,0.5);}
@@ -141,7 +141,7 @@
         const loadingVideo = document.getElementById('loading-video');
         const staffGrid = document.getElementById('staffGrid');
         
-        bgMusic.volume = 0.2;
+        bgMusic.volume = 0.5;
         bgMusic.loop = true; // Ensure loop is enabled
         let bgMusicEnabled = false;
         let userInteracted = false;
@@ -154,8 +154,8 @@
             card.className = 'staff-card';
             
             card.innerHTML = `
+                ${member.effect ? `<img src="${member.effect}" alt="effect" class="profile-effect">` : ''}
                 <div class="avatar-container">
-                    ${member.effect ? `<img src="${member.effect}" alt="effect" class="profile-effect">` : ''}
                     <img src="${member.avatar}" alt="${member.name}" class="avatar">
                     ${member.deco ? `<img src="${member.deco}" alt="decoration" class="avatar-decoration">` : ''}
                 </div>
