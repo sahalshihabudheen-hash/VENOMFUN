@@ -160,11 +160,18 @@
         const loadingVideo = document.getElementById('loading-video');
         bgMusic.volume = 0.2;
         let musicStarted = false;
+        let loadingComplete = false;
 
         function playMusic() {
             if (!musicStarted) {
-                bgMusic.play().catch(()=>{});
-                musicStarted = true;
+                bgMusic.play().then(() => {
+                    musicStarted = true;
+                    // Remove listeners after music starts successfully
+                    document.removeEventListener('click', playMusic);
+                    document.removeEventListener('touchstart', playMusic);
+                }).catch(() => {
+                    console.log('Music play failed, user interaction needed');
+                });
             }
         }
 
@@ -172,6 +179,10 @@
             loadingScreen.classList.add('fade-out');
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
+                loadingComplete = true;
+                // Add click listener to play music AFTER loading screen is hidden
+                document.addEventListener('click', playMusic);
+                document.addEventListener('touchstart', playMusic);
             }, 500);
         }
 
@@ -179,25 +190,28 @@
             console.log('Autoplay blocked');
         });
 
-        document.addEventListener('click', function startVideo() {
-            if (loadingScreen.style.display !== 'none') {
+        // Allow user to click to start video if autoplay is blocked during loading
+        function handleLoadingClick() {
+            if (!loadingComplete && loadingScreen.style.display !== 'none') {
                 loadingVideo.play().catch(e => console.log('Play failed:', e));
-                document.removeEventListener('click', startVideo);
             }
-        }, { once: true });
+        }
 
+        document.addEventListener('click', handleLoadingClick);
+        document.addEventListener('touchstart', handleLoadingClick);
+
+        // When loading video ends, hide loading screen and try to play music
         loadingVideo.addEventListener('ended', function() {
             hideLoading();
             playMusic();
         });
 
+        // Fallback timeout to hide loading screen
         setTimeout(() => {
             if (loadingScreen.style.display !== 'none') {
                 hideLoading();
             }
         }, 8000);
-
-        document.addEventListener('click', playMusic, { once: true });
 
         let currentEdition = null;
 
