@@ -151,51 +151,47 @@
 
 <script>
     const bgMusic = document.getElementById('bg-music');
-    const loadingScreen = document.getElementById('loading-screen');
-    const loadingVideo = document.getElementById('loading-video');
-    
     bgMusic.volume = 0.2;
     
     function playMusic() {
         bgMusic.play().catch(()=>{});
     }
 
-    // Check if loading was already shown in this session
-    if (sessionStorage.getItem('loadingShown') === 'true') {
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingVideo = document.getElementById('loading-video');
+    
+    // Check if loading was already shown
+    const wasShown = sessionStorage.getItem('loadingShown') === 'true';
+    
+    if (wasShown) {
         loadingScreen.style.display = 'none';
         document.addEventListener('click', playMusic, { once: true });
     } else {
-        // Handle video end
+        // Ensure video plays
+        loadingVideo.addEventListener('canplay', function() {
+            this.play().catch(e => console.log('Play failed:', e));
+        });
+        
         loadingVideo.addEventListener('ended', function() {
             loadingScreen.classList.add('fade-out');
-            setTimeout(function() {
+            setTimeout(() => {
                 loadingScreen.style.display = 'none';
                 sessionStorage.setItem('loadingShown', 'true');
-            }, 500);
-            playMusic();
-        });
-
-        // Handle video error
-        loadingVideo.addEventListener('error', function() {
-            console.error('Loading video failed to load');
-            loadingScreen.classList.add('fade-out');
-            setTimeout(function() {
-                loadingScreen.style.display = 'none';
-                sessionStorage.setItem('loadingShown', 'true');
+                playMusic();
             }, 500);
         });
-
-        // Fallback timeout
-        setTimeout(function() {
+        
+        // Fallback timeout (10 seconds)
+        setTimeout(() => {
             if (loadingScreen.style.display !== 'none') {
                 loadingScreen.classList.add('fade-out');
-                setTimeout(function() {
+                setTimeout(() => {
                     loadingScreen.style.display = 'none';
                     sessionStorage.setItem('loadingShown', 'true');
+                    playMusic();
                 }, 500);
-                playMusic();
             }
-        }, 8000);
+        }, 10000);
     }
 
     let currentEdition = null;
