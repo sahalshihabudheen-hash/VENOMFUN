@@ -43,7 +43,7 @@
     .server-info {background:linear-gradient(180deg,#3a3a3a 0%,#2a2a2a 100%);border:4px solid #000;border-top:4px solid #5a5a5a;border-left:4px solid #5a5a5a;padding:2.5rem;text-align:center;margin-top:2rem;box-shadow:8px 8px 0 #000;position:relative;}
     .server-info::before {content:'';position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;border:2px solid #1a1a1a;pointer-events:none;}
     .server-info h2 {color:#ffed4e;margin-bottom:1.5rem;font-size:1.8rem;text-shadow:3px 3px 0 #000;}
-    
+
     .edition-buttons {display:flex;gap:1rem;justify-content:center;margin:2rem 0;flex-wrap:wrap;}
     .edition-btn {font-family:'Courier New',monospace;padding:1rem 2rem;font-size:1rem;font-weight:bold;cursor:pointer;background:linear-gradient(180deg,#5a5a5a 0%,#3a3a3a 100%);border:4px solid #000;border-top:4px solid #7a7a7a;border-left:4px solid #7a7a7a;color:#fff;text-shadow:2px 2px 0 #000;letter-spacing:2px;transition:all 0.1s;}
     .edition-btn:hover {background:linear-gradient(180deg,#7a7a7a 0%,#5a5a5a 100%);transform:translate(1px,1px);}
@@ -78,8 +78,11 @@
     @media(max-width:768px){.nav-links{display:none;}.hamburger{display:flex;}h1{font-size:2.5rem;}.subtitle{font-size:0.9rem;}.server-info h2{font-size:1.4rem;}.edition-buttons{flex-direction:column;}#loading-video{max-width:80%;max-height:80%;}}
     @media(max-width:480px){h1{font-size:2rem;}.subtitle{font-size:0.75rem;}#loading-video{max-width:70%;max-height:70%;}}
     </style>
-  </head>
+    <meta property="og:image" content="https://bolt.new/static/og_default.png">
 
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+</head>
   <body>
 
 <div id="loading-screen">
@@ -116,7 +119,7 @@
         <div class="server-info">
             <h2>⚡ Server Info ⚡</h2>
             <p style="color:#aaa;text-shadow:2px 2px 0 #000;margin-bottom:1rem;">Select Your Edition:</p>
-            
+
             <div class="edition-buttons">
                 <button class="edition-btn" onclick="selectEdition('pocket')">📱 POCKET EDITION</button>
                 <button class="edition-btn" onclick="selectEdition('java')">☕ JAVA EDITION</button>
@@ -159,10 +162,10 @@
     const bgMusic = document.getElementById('bg-music');
     const loadingScreen = document.getElementById('loading-screen');
     const loadingVideo = document.getElementById('loading-video');
-    
+
     bgMusic.volume = 0.2;
     let musicStarted = false;
-    
+
     function playMusic() {
         if (!musicStarted) {
             bgMusic.play().catch(()=>{});
@@ -174,7 +177,6 @@
         loadingScreen.classList.add('fade-out');
         setTimeout(() => {
             loadingScreen.style.display = 'none';
-            sessionStorage.setItem('loadingShown', 'true');
         }, 500);
     }
 
@@ -183,39 +185,28 @@
         playMusic();
     }
 
-    // Check if loading was already shown
-    const wasShown = sessionStorage.getItem('loadingShown') === 'true';
-    
-    if (wasShown) {
-        loadingScreen.style.display = 'none';
-    } else {
-        // Try to play loading video
-        loadingVideo.play().catch(() => {
-            console.log('Autoplay blocked, showing skip button');
-        });
+    loadingVideo.play().catch(() => {
+        console.log('Autoplay blocked');
+    });
 
-        // User interaction to play video
-        document.addEventListener('click', function startVideo() {
-            if (loadingScreen.style.display !== 'none') {
-                loadingVideo.play().catch(e => console.log('Play failed:', e));
-                document.removeEventListener('click', startVideo);
-            }
-        }, { once: true });
-        
-        loadingVideo.addEventListener('ended', function() {
+    document.addEventListener('click', function startVideo() {
+        if (loadingScreen.style.display !== 'none') {
+            loadingVideo.play().catch(e => console.log('Play failed:', e));
+            document.removeEventListener('click', startVideo);
+        }
+    }, { once: true });
+
+    loadingVideo.addEventListener('ended', function() {
+        hideLoading();
+        playMusic();
+    });
+
+    setTimeout(() => {
+        if (loadingScreen.style.display !== 'none') {
             hideLoading();
-            playMusic();
-        });
-        
-        // Fallback timeout
-        setTimeout(() => {
-            if (loadingScreen.style.display !== 'none') {
-                hideLoading();
-            }
-        }, 8000);
-    }
+        }
+    }, 8000);
 
-    // Start music on any user interaction
     document.addEventListener('click', playMusic, { once: true });
 
     let currentEdition = null;
@@ -259,14 +250,14 @@
         const statusElement = document.getElementById(statusElementId);
         const playersElementId = statusElementId.replace('-status', '-players');
         const playersElement = document.getElementById(playersElementId);
-        
+
         fetch(`https://api.mcsrvstat.us/2/${ip}`)
             .then(res => res.json())
             .then(data => {
                 if (data.online) {
                     statusElement.textContent = '✓ ONLINE';
                     statusElement.className = 'server-status status online';
-                    
+
                     const onlinePlayers = data.players.online || 0;
                     const maxPlayers = data.players.max || 0;
                     playersElement.textContent = `👥 Players: ${onlinePlayers}/${maxPlayers}`;
