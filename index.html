@@ -152,19 +152,24 @@
 <script>
     const bgMusic = document.getElementById('bg-music');
     bgMusic.volume = 0.2;
-    bgMusic.play().catch(()=>{});
+    
+    function playMusic() {
+        bgMusic.play().catch(()=>{});
+    }
 
     const loadingScreen = document.getElementById('loading-screen');
     const loadingVideo = document.getElementById('loading-video');
     
     if (sessionStorage.getItem('loadingShown')) {
         loadingScreen.style.display = 'none';
+        document.addEventListener('click', playMusic, { once: true });
     } else {
         loadingVideo.addEventListener('ended', () => {
             loadingScreen.classList.add('fade-out');
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
                 sessionStorage.setItem('loadingShown', 'true');
+                playMusic();
             }, 500);
         });
         
@@ -173,6 +178,7 @@
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
                 sessionStorage.setItem('loadingShown', 'true');
+                playMusic();
             }, 500);
         }, 5000);
     }
