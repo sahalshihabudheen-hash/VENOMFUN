@@ -1,11 +1,21 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VENOM FUN - Lifesteal SMP</title>
-<meta name="description" content="Official VENOM FUN Lifesteal SMP Server - Join the ultimate Minecraft survival experience">
-<style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VENOM FUN - Lifesteal SMP</title>
+    <meta name="description" content="Official VENOM FUN Lifesteal SMP Server - Join the ultimate Minecraft survival experience" />
+    <meta name="author" content="JARVIS" />
+
+    <meta property="og:title" content="VENOM FUN - Lifesteal SMP" />
+    <meta property="og:description" content="Official VENOM FUN Lifesteal SMP Server" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@VenomFun" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <style>
     * {margin:0;padding:0;box-sizing:border-box;}
     body {font-family:'Courier New',monospace;color:#fff;min-height:100vh;overflow-x:hidden;background:#000;}
 
@@ -43,13 +53,17 @@
     .server-details {display:none;margin-top:1.5rem;}
     .server-details.show {display:block;animation:fadeIn 0.5s ease-out;}
     .server-name {font-size:1.2rem;color:#ffed4e;margin-bottom:1rem;text-shadow:2px 2px 0 #000;letter-spacing:2px;}
-    .server-ip {font-family:'Courier New',monospace;font-size:1.1rem;color:#55ff55;margin:0.5rem 0;padding:1rem;background:#1a1a1a;border:3px solid #000;border-top:3px solid #2a2a2a;border-left:3px solid #2a2a2a;text-shadow:2px 2px 0 #000;letter-spacing:1px;}
-    .server-port {font-family:'Courier New',monospace;font-size:1rem;color:#ffaa00;margin:0.5rem 0;padding:0.8rem;background:#1a1a1a;border:3px solid #000;text-shadow:2px 2px 0 #000;letter-spacing:1px;}
+    .server-ip {font-family:'Courier New',monospace;font-size:1.1rem;color:#55ff55;margin:0.5rem 0;padding:1rem;background:#1a1a1a;border:3px solid #000;border-top:3px solid #2a2a2a;border-left:3px solid #2a2a2a;text-shadow:2px 2px 0 #000;letter-spacing:1px;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .server-port {font-family:'Courier New',monospace;font-size:1rem;color:#ffaa00;margin:0.5rem 0;padding:0.8rem;background:#1a1a1a;border:3px solid #000;text-shadow:2px 2px 0 #000;letter-spacing:1px;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;}
     .server-players {font-family:'Courier New',monospace;font-size:1rem;color:#00ddff;margin:0.5rem 0;padding:0.8rem;background:#1a1a1a;border:3px solid #000;text-shadow:2px 2px 0 #000;letter-spacing:1px;font-weight:bold;}
     .server-status {display:inline-block;padding:0.8rem 1.5rem;font-size:1rem;font-weight:bold;border:4px solid;text-shadow:3px 3px 0 #000;margin-top:1rem;letter-spacing:2px;}
     .status.online {background:linear-gradient(180deg,#55ff55 0%,#3fa03f 100%);border-color:#2a7a2a #000 #000 #2a7a2a;color:#fff;}
     .status.offline {background:linear-gradient(180deg,#ff5555 0%,#a03f3f 100%);border-color:#7a2a2a #000 #000 #7a2a2a;color:#fff;}
     .status.unknown {background:linear-gradient(180deg,#ffaa00 0%,#a07a3f 100%);border-color:#7a5a2a #000 #000 #7a5a2a;color:#fff;}
+
+    .copy-btn {font-family:'Courier New',monospace;padding:0.5rem 1rem;font-size:0.8rem;font-weight:bold;cursor:pointer;background:linear-gradient(180deg,#5a5a5a 0%,#3a3a3a 100%);border:3px solid #000;border-top:3px solid #7a7a7a;border-left:3px solid #7a7a7a;color:#fff;text-shadow:1px 1px 0 #000;letter-spacing:1px;transition:all 0.1s;white-space:nowrap;}
+    .copy-btn:hover {background:linear-gradient(180deg,#7a7a7a 0%,#5a5a5a 100%);transform:translate(1px,1px);}
+    .copy-btn:active {transform:translate(2px,2px);border-top:3px solid #3a3a3a;border-left:3px solid #3a3a3a;}
 
     footer {background:#1a1a1a;border-top:4px solid #000;padding:1.5rem;text-align:center;margin-top:4rem;font-size:0.9rem;color:#ffed4e;text-shadow:2px 2px 0 #000;letter-spacing:1px;}
 
@@ -59,9 +73,10 @@
 
     @media(max-width:768px){.nav-links{display:none;}.hamburger{display:flex;}h1{font-size:2.5rem;}.subtitle{font-size:0.9rem;}.server-info h2{font-size:1.4rem;}.edition-buttons{flex-direction:column;}#loading-video{max-width:80%;max-height:80%;}}
     @media(max-width:480px){h1{font-size:2rem;}.subtitle{font-size:0.75rem;}#loading-video{max-width:70%;max-height:70%;}}
-</style>
-</head>
-<body>
+    </style>
+  </head>
+
+  <body>
 
 <div id="loading-screen">
     <video id="loading-video" autoplay muted playsinline>
@@ -103,15 +118,24 @@
 
             <div id="pocket-details" class="server-details">
                 <div class="server-name">📱 POCKET EDITION</div>
-                <div class="server-ip">🌐 IP: us.realistichost.pro</div>
-                <div class="server-port">🔌 Port: 19134</div>
+                <div class="server-ip">
+                    <span>🌐 IP: us.realistichost.pro</span>
+                    <button class="copy-btn" onclick="copyToClipboard('us.realistichost.pro', 'IP')">📋 COPY</button>
+                </div>
+                <div class="server-port">
+                    <span>🔌 Port: 19134</span>
+                    <button class="copy-btn" onclick="copyToClipboard('19134', 'Port')">📋 COPY</button>
+                </div>
                 <div class="server-players" id="pocket-players">👥 Players: Loading...</div>
                 <div class="server-status status unknown" id="pocket-status">CHECKING...</div>
             </div>
 
             <div id="java-details" class="server-details">
                 <div class="server-name">☕ JAVA EDITION</div>
-                <div class="server-ip">🌐 IP: bloodyvenom.xav.lat:19134</div>
+                <div class="server-ip">
+                    <span>🌐 IP: bloodyvenom.xav.lat:19134</span>
+                    <button class="copy-btn" onclick="copyToClipboard('bloodyvenom.xav.lat:19134', 'IP')">📋 COPY</button>
+                </div>
                 <div class="server-players" id="java-players">👥 Players: Loading...</div>
                 <div class="server-status status unknown" id="java-status">CHECKING...</div>
             </div>
@@ -133,7 +157,6 @@
     const loadingScreen = document.getElementById('loading-screen');
     const loadingVideo = document.getElementById('loading-video');
     
-    // Check if loading screen has been shown in this session
     if (sessionStorage.getItem('loadingShown')) {
         loadingScreen.style.display = 'none';
     } else {
@@ -156,15 +179,20 @@
 
     let currentEdition = null;
 
+    function copyToClipboard(text, label) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert(label + ' copied to clipboard!');
+        }).catch(() => {
+            alert('Failed to copy!');
+        });
+    }
+
     function selectEdition(edition) {
-        // Update button states
         document.querySelectorAll('.edition-btn').forEach(btn => btn.classList.remove('active'));
         event.target.classList.add('active');
 
-        // Hide all details
         document.querySelectorAll('.server-details').forEach(detail => detail.classList.remove('show'));
 
-        // Show selected edition details
         if (edition === 'pocket') {
             document.getElementById('pocket-details').classList.add('show');
             if (!currentEdition || currentEdition !== 'pocket') {
@@ -192,7 +220,6 @@
                     statusElement.textContent = '✓ ONLINE';
                     statusElement.className = 'status online';
                     
-                    // Display player count
                     const onlinePlayers = data.players.online || 0;
                     const maxPlayers = data.players.max || 0;
                     playersElement.textContent = `👥 Players: ${onlinePlayers}/${maxPlayers}`;
@@ -213,5 +240,5 @@
     }
 </script>
 
-</body>
+  </body>
 </html>
