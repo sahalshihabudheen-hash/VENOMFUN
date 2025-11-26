@@ -12,6 +12,8 @@
         .bg-video {position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-2;}
         .bg-overlay {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:-1;}
         #navbar {position:fixed;top:0;left:0;right:0;background:linear-gradient(180deg,#2d2d2d 0%,#1a1a1a 100%);border-bottom:4px solid #000;border-top:2px solid #555;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 4px 8px rgba(0,0,0,0.5);font-family:'Press Start 2P',cursive;}
+        .nav-brand {display:flex;align-items:center;gap:1rem;}
+        .nav-logo-img {height:50px;width:50px;object-fit:contain;filter:drop-shadow(2px 2px 0 #000);}
         .nav-logo {color:#ffed4e;font-size:1.2rem;text-shadow:3px 3px 0 #000,4px 4px 0 #3f3f00;font-weight:normal;letter-spacing:2px;font-family:'Press Start 2P',cursive;}
         .nav-links {display:flex;gap:2rem;}
         .nav-link {color:#fff;text-decoration:none;font-size:0.9rem;cursor:pointer;text-shadow:2px 2px 0 #000;padding:0.5rem 1rem;background:#5a5a5a;border:2px solid #000;border-top:2px solid #8a8a8a;border-left:2px solid #8a8a8a;transition:all 0.1s;font-family:'Press Start 2P',cursive;}
@@ -45,6 +47,7 @@
         .powered-by {font-size:1rem;color:#55ff55;text-shadow:3px 3px 0 #000,4px 4px 0 #003f00;font-weight:bold;letter-spacing:3px;animation:float 3s ease-in-out infinite;}
 
         @media(max-width:768px){
+            .nav-logo-img{height:35px;width:35px;}
             .nav-logo{font-size:0.8rem;}
             .nav-links{display:none;}
             .hamburger{display:flex;}
@@ -70,7 +73,10 @@
     </audio>
 
     <nav id="navbar">
-        <div class="nav-logo">⛏ VENOM FUN ⛏</div>
+        <div class="nav-brand">
+            <img src="https://i.postimg.cc/CKmS33QZ/Blood-Venom-SMP-512x512.png" alt="Venom Fun Logo" class="nav-logo-img">
+            <div class="nav-logo">⛏ VENOM FUN ⛏</div>
+        </div>
         <div class="nav-links">
             <a class="nav-link" href="index.html">HOME</a>
             <a class="nav-link" href="staff.html">STAFF</a>
